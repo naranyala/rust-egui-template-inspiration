@@ -23,10 +23,11 @@ cargo fmt -- --check
 - Wizard navigation blocks incomplete steps.
 - Launch-option parsing covers `--demo`, `--demo=NAME`, and `--fullscreen`.
 - Unsaved-change state transitions cover checkpointing and discard behavior.
+- Documentation consistency keeps README.md and demo-catalog.md in sync with the registry.
 
 The render test intentionally calls every demo through the same `Demo` trait used by the launcher. It catches broken registration, invalid widget construction, and many borrow/state regressions without trying to assert pixels.
 
-The current suite contains 12 tests, including one-frame rendering for all 37
+The current suite contains 13 tests, including one-frame rendering for all 37
 registered demos. Keep this count descriptive rather than treating it as a
 hard limit; the registry invariant is the source of truth.
 
@@ -36,6 +37,8 @@ hard limit; the registry invariant is the source of truth.
 2. Add metadata assertions if it introduces a new category or important public pattern.
 3. Add a module-local test for validation, sorting, filtering, or navigation rules.
 4. Keep rendering smoke-test-safe: do not assume a native display exists.
+5. Update README.md and docs/demo-catalog.md — the documentation-consistency
+   test fails the suite otherwise.
 
 For visual verification, run `cargo run` on a desktop session and manually exercise the new pattern in both dark and light themes.
 

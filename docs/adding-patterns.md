@@ -83,4 +83,6 @@ Confirm that the pattern appears under the expected category, remains usable aft
 
 Update both `README.md` and `docs/demo-catalog.md` in the same change. The
 README is the concise discovery page; the catalog should explain the reusable
-egui technique in more detail.
+egui technique in more detail. A documentation-consistency test in
+`src/demos/mod.rs` fails the suite when either page is missing a registered
+pattern, so this step cannot be skipped silently.

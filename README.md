@@ -102,8 +102,9 @@ desktop session and graphics backend.
 ```text
 .
 ├── Cargo.toml       dependencies, package metadata, and dev profile
-├── README.md         project overview and quick start
-├── docs/             focused guides for using and extending the project
+├── TODOS.md         roadmap and completion tracking
+├── README.md        project overview and quick start
+├── docs/            focused guides for using and extending the project
 └── src/
     ├── main.rs       native window setup and eframe startup
     ├── app.rs        launcher shell, navigation, search, and status bar
@@ -122,15 +123,18 @@ Read [the architecture guide](docs/architecture.md) for the frame layout and sta
 - [Adding patterns](docs/adding-patterns.md) — registration, design guidance, and verification steps.
 - [Testing](docs/testing.md) — unit, headless-render, lint, and screenshot checks.
 - [egui notes](docs/egui-notes.md) — version-specific API and renderer guidance.
+- [TODOS](TODOS.md) — completed work and the remaining roadmap.
 
 ## Adding a pattern
 
 1. Create a module in `src/demos/` and implement the `Demo` trait.
 2. Declare the module in `src/demos/mod.rs`.
-3. Add a default instance to `all_demos()`.
-4. Run the formatting and checks above.
+3. Add a default instance to `all_demos()`, bump the catalogue-size assertion
+   in the registry test, and add the name to its expected list.
+4. Update README.md and docs/demo-catalog.md.
+5. Run the formatting and checks above.
 
-The launcher discovers patterns from the registry and automatically displays their name, description, category, and UI. The full walkthrough and a copy-paste starter are in [docs/adding-patterns.md](docs/adding-patterns.md).
+The launcher discovers patterns from the registry and automatically displays their name, description, category, and UI. Documentation coverage for every registered pattern is enforced by the headless docs-consistency test. The full walkthrough and a copy-paste starter are in [docs/adding-patterns.md](docs/adding-patterns.md).
 
 ## Design notes
 
