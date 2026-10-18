@@ -11,6 +11,8 @@ use std::time::{Duration, Instant};
 pub struct FeedbackStates {
     state: usize,
     toast_until: Option<Instant>,
+    notifications_open: bool,
+    notifications: Vec<&'static str>,
 }
 
 impl Demo for FeedbackStates {
@@ -25,14 +27,31 @@ impl Demo for FeedbackStates {
     }
 
     fn ui(&mut self, ui: &mut Ui) {
+        if self.notifications.is_empty() {
+            self.notifications = vec![
+                "Build completed successfully",
+                "A teammate mentioned you",
+                "Backup finished 2 minutes ago",
+            ];
+        }
+
         ui.horizontal_wrapped(|ui| {
-            for (index, label) in ["Loading", "Empty", "Error", "Success"].iter().enumerate() {
+            for (index, label) in ["Loading", "Empty", "Error", "Skeleton", "Success"]
+                .iter()
+                .enumerate()
+            {
                 if ui.selectable_label(self.state == index, *label).clicked() {
                     self.state = index;
                 }
             }
             if ui.button("Show toast").clicked() {
                 self.toast_until = Some(Instant::now() + Duration::from_secs(3));
+            }
+            if ui
+                .button(format!("Notifications ({})", self.notifications.len()))
+                .clicked()
+            {
+                self.notifications_open = !self.notifications_open;
             }
         });
         ui.separator();
@@ -55,6 +74,16 @@ impl Demo for FeedbackStates {
                     self.state = 0;
                 }
             }
+            3 => {
+                for width in [0.82, 0.64, 0.74] {
+                    ui.add(
+                        egui::ProgressBar::new(1.0)
+                            .animate(true)
+                            .desired_width(ui.available_width() * width),
+                    );
+                    ui.add_space(6.0);
+                }
+            }
             _ => {
                 ui.colored_label(
                     Color32::from_rgb(80, 180, 110),
@@ -63,6 +92,25 @@ impl Demo for FeedbackStates {
                 ui.label(RichText::new("Last synchronized just now").weak());
             }
         });
+
+        if self.notifications_open {
+            egui::Frame::group(ui.style()).show(ui, |ui| {
+                ui.horizontal(|ui| {
+                    ui.strong("Notification center");
+                    if ui.small_button("Mark all read").clicked() {
+                        self.notifications.clear();
+                    }
+                });
+                ui.separator();
+                if self.notifications.is_empty() {
+                    ui.weak("No new notifications.");
+                } else {
+                    for notification in &self.notifications {
+                        ui.label(format!("• {notification}"));
+                    }
+                }
+            });
+        }
         if let Some(until) = self.toast_until {
             if until > Instant::now() {
                 ui.ctx().request_repaint_after(Duration::from_millis(100));

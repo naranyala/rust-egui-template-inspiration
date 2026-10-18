@@ -45,6 +45,14 @@ The progress and buttons demos use this technique to simulate work without spawn
 
 `Cargo.toml` disables `eframe` default features and enables `glow`, fonts, accessibility, clipboard, links, system fonts, X11, and Wayland. This keeps the dependency tree smaller for a pattern gallery. If your application needs wgpu-specific rendering, change the feature selection deliberately and expect a larger build.
 
+The `accesskit` feature provides the accessibility integration point, but each
+demo still needs meaningful labels, focus behavior, and keyboard flows.
+Accessibility should be treated as part of each pattern's implementation
+rather than assumed to be inferred by the renderer.
+
+Native execution and screenshot capture depend on a working windowing session.
+Headless registry and render tests do not require X11, Wayland, or a compositor.
+
 ## Charts without egui_plot
 
 The chart demo uses `Painter` primitives because the selected `egui_plot` release is tied to egui 0.36 while this project uses egui 0.37. Mixing those versions can create incompatible `Color32` and related types. Revisit the dependency when a compatible `egui_plot` release is available.

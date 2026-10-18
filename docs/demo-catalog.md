@@ -26,9 +26,11 @@ This page is a quick map from the gallery entries to the source files and the te
 | Form & validation | [`src/demos/forms.rs`](../src/demos/forms.rs) | Label/control grids, inline errors, submit/reset flows |
 | Input widgets | [`src/demos/inputs.rs`](../src/demos/inputs.rs) | Sliders, drags, toggles, radio groups, combo boxes, colors |
 | Keyboard focus & shortcuts | [`src/demos/keyboard_nav.rs`](../src/demos/keyboard_nav.rs) | Arrow-key focus traversal and shortcut discoverability |
+| Unsaved changes | [`src/demos/unsaved_changes.rs`](../src/demos/unsaved_changes.rs) | Dirty tracking, guarded navigation, and save/discard confirmation |
+| Date, time & folder pickers | [`src/demos/pickers.rs`](../src/demos/pickers.rs) | Segmented date/time fields and a filesystem folder browser |
 | Buttons & actions | [`src/demos/buttons.rs`](../src/demos/buttons.rs) | Button styling, menus, disabled state, keyboard hints |
 | Grouped bulk selection | [`src/demos/bulk_selection.rs`](../src/demos/bulk_selection.rs) | Group selection, select-all controls, and bulk actions |
-| Data table | [`src/demos/tables.rs`](../src/demos/tables.rs) | `egui_extras::TableBuilder`, sorting, selection, virtualised rows |
+| Data table | [`src/demos/tables.rs`](../src/demos/tables.rs) | `egui_extras::TableBuilder`, sorting, selection, pagination, virtualised rows |
 | Diff / compare | [`src/demos/diff_view.rs`](../src/demos/diff_view.rs) | Unified and side-by-side source comparison |
 | Tree / hierarchy | [`src/demos/tree.rs`](../src/demos/tree.rs) | Recursive nodes, disclosure headers, filtered branches |
 | Popups & modals | [`src/demos/popups.rs`](../src/demos/popups.rs) | Tooltips, context menus, menu buttons, modal dialogs |
@@ -37,7 +39,7 @@ This page is a quick map from the gallery entries to the source files and the te
 | Progress & status | [`src/demos/progress.rs`](../src/demos/progress.rs) | Progress bars, spinners, simulated work, repaint scheduling |
 | Command palette | [`src/demos/command_palette.rs`](../src/demos/command_palette.rs) | Keyboard-first searchable actions and shortcuts |
 | Property inspector | [`src/demos/inspector.rs`](../src/demos/inspector.rs) | Selectable objects and editable/read-only properties |
-| Feedback states | [`src/demos/feedback_states.rs`](../src/demos/feedback_states.rs) | Loading, empty, error, retry, success, and toast surfaces |
+| Feedback states | [`src/demos/feedback_states.rs`](../src/demos/feedback_states.rs) | Loading, empty, error, retry, skeleton, success, toast, and notification center |
 | Calendar / scheduler | [`src/demos/calendar.rs`](../src/demos/calendar.rs) | Month/week planning and selected-day state |
 
 The examples are intentionally adjacent in the source tree. When adapting one, copy the smallest relevant section into your application and keep the demo's state model as a reference.

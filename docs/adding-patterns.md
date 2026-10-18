@@ -55,6 +55,10 @@ Box::<my_pattern::MyPattern>::default(),
 
 The sidebar will use `name`, `description`, and `category` automatically.
 
+Keep the registry test in `src/demos/mod.rs` synchronized with the catalogue
+size and add the new name to its expected-name list when the pattern is an
+important public example.
+
 ## 3. Keep the example focused
 
 A good pattern should demonstrate one technique clearly. Prefer:
@@ -76,3 +80,7 @@ cargo run
 ```
 
 Confirm that the pattern appears under the expected category, remains usable after switching patterns, and behaves correctly in both dark and light themes.
+
+Update both `README.md` and `docs/demo-catalog.md` in the same change. The
+README is the concise discovery page; the catalog should explain the reusable
+egui technique in more detail.

@@ -10,7 +10,7 @@ This file tracks the implementation and quality work for the egui inspiration ga
 
 ## Current foundation
 
-- [x] 35 registered demos are exposed through `src/demos/mod.rs`.
+- [x] 37 registered demos are exposed through `src/demos/mod.rs`.
 - [x] Every demo is listed in `README.md` and `docs/demo-catalog.md`.
 - [x] Registry metadata checks enforce unique names and non-empty descriptions.
 - [x] Headless smoke test renders every registered demo for one frame.
@@ -33,21 +33,32 @@ This file tracks the implementation and quality work for the egui inspiration ga
 - [ ] Add tab overflow, tab context menus, and dirty-tab close confirmation.
 - [x] Add grouped lists and bulk-selection actions.
 - [ ] Add tree-table and filter-builder data views.
-- [ ] Add pagination and explicit loading/empty/error states to data views.
+- [-] Add pagination and explicit loading/empty/error states to data views (pagination and shared feedback states are covered; table-specific async data is pending).
 - [x] Add property inspector read-only/edit modes.
-- [ ] Add date/time and file/folder picker form variants.
-- [ ] Add unsaved-changes confirmation and discard flows.
-- [-] Add notification center and toast stack (toast stack is covered by feedback states; a notification center is still pending).
-- [-] Add skeleton loading and offline/retry states (spinner loading, error, and retry are covered; skeleton placeholders are pending).
+- [x] Add date/time and file/folder picker form variants.
+- [x] Add unsaved-changes confirmation and discard flows.
+- [x] Add notification center and toast stack.
+- [x] Add skeleton loading and offline/retry states.
 - [x] Add diff/compare viewer.
 - [x] Add keyboard focus-order and shortcut demonstrations.
 
+## Web-parity patterns (framework gap analysis)
+
+Patterns modern web UI frameworks provide natively and our gallery should
+demonstrate how to approximate without first-class support:
+
+- [ ] Add a design-token / theme-customization template (colors-as-patterns, accent scoping).
+- [ ] Add a flexbox-style grow/shrink manual layout template.
+- [ ] Add an animation and easing template (manual lerp + `request_repaint_after`).
+- [ ] Add an RTL / i18n text-direction and locale-formatting template.
+- [ ] Add an accessibility labeling and focus-ring styling template.
+
 ## Quality and automation
 
-- [ ] Add interaction tests for click, keyboard, and state transitions.
-- [ ] Add test coverage for screenshot CLI argument parsing.
+- [-] Add interaction tests for click, keyboard, and state transitions (headless state tests are covered; real pointer replay is pending).
+- [x] Add test coverage for screenshot CLI argument parsing.
 - [ ] Add visual screenshot fixtures for a small representative set of layouts.
-- [ ] Add a documentation consistency check for registry, README, and catalog entries.
+- [x] Add a documentation consistency check for registry, README, and catalog entries.
 - [ ] Add screenshot examples to README once a desktop compositor is available.
 - [ ] Add platform notes for native X11, Wayland, Windows, and macOS behavior.
 - [ ] Add proper MIT and Apache-2.0 license files before distribution.
@@ -60,3 +71,5 @@ This file tracks the implementation and quality work for the egui inspiration ga
 - [x] Make accordion sections mutually exclusive.
 - [x] Add responsive, three-pane, document-tab, accordion, and masonry variants.
 - [x] Keep `cargo test`, Clippy with warnings denied, and rustfmt clean.
+- [x] Add paginated data-table controls for large result sets.
+- [x] Add a shared launch-option parser with unit coverage.

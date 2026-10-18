@@ -30,6 +30,7 @@ pub mod masonry;
 pub mod master_detail;
 pub mod nav_rail;
 pub mod panels;
+pub mod pickers;
 pub mod plots;
 pub mod popups;
 pub mod progress;
@@ -41,6 +42,7 @@ pub mod tabs;
 pub mod three_pane;
 pub mod timeline;
 pub mod tree;
+pub mod unsaved_changes;
 pub mod wizard;
 
 /// Grouping used to organise the launcher's sidebar.
@@ -110,6 +112,7 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
         Box::<bulk_selection::BulkSelection>::default(),
         Box::<inputs::Inputs>::default(),
         Box::<keyboard_nav::KeyboardNav>::default(),
+        Box::<pickers::Pickers>::default(),
         Box::<buttons::Buttons>::default(),
         Box::<tables::Tables>::default(),
         Box::<diff_view::DiffView>::default(),
@@ -117,6 +120,7 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
         Box::<popups::Popups>::default(),
         Box::<split::Splits>::default(),
         Box::<tabs::Tabs>::default(),
+        Box::<unsaved_changes::UnsavedChanges>::default(),
         Box::<floating::Floating>::default(),
         Box::<accordion::Accordion>::default(),
         Box::<masonry::Masonry>::default(),
@@ -138,7 +142,7 @@ mod tests {
     #[test]
     fn registry_has_unique_metadata_for_every_demo() {
         let demos = all_demos();
-        assert_eq!(demos.len(), 35);
+        assert_eq!(demos.len(), 37);
 
         let names: HashSet<_> = demos.iter().map(|demo| demo.name()).collect();
         assert_eq!(names.len(), demos.len(), "demo names must be unique");
@@ -176,10 +180,33 @@ mod tests {
             "Grouped bulk selection",
             "Diff / compare",
             "Keyboard focus & shortcuts",
+            "Unsaved changes",
+            "Date, time & folder pickers",
         ] {
             assert!(
                 names.contains(expected),
                 "missing registered demo: {expected}"
+            );
+        }
+    }
+
+    #[test]
+    fn docs_list_every_registered_demo() {
+        let manifest = env!("CARGO_MANIFEST_DIR");
+        let readme =
+            std::fs::read_to_string(format!("{manifest}/README.md")).expect("README.md readable");
+        let catalog = std::fs::read_to_string(format!("{manifest}/docs/demo-catalog.md"))
+            .expect("demo-catalog.md readable");
+
+        for demo in all_demos() {
+            let name = demo.name();
+            assert!(
+                readme.contains(name),
+                "README.md is missing registered demo: {name}"
+            );
+            assert!(
+                catalog.contains(name),
+                "docs/demo-catalog.md is missing registered demo: {name}"
             );
         }
     }

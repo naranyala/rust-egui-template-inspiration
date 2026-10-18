@@ -18,8 +18,16 @@ struct LaunchOptions {
 
 impl LaunchOptions {
     fn parse() -> Self {
+        Self::parse_from(std::env::args().skip(1))
+    }
+
+    fn parse_from<I, S>(args: I) -> Self
+    where
+        I: IntoIterator<Item = S>,
+        S: Into<String>,
+    {
         let mut options = Self::default();
-        let mut args = std::env::args().skip(1);
+        let mut args = args.into_iter().map(Into::into);
         while let Some(arg) = args.next() {
             match arg.as_str() {
                 "--fullscreen" => options.fullscreen = true,
@@ -65,4 +73,29 @@ fn main() -> Result<(), eframe::Error> {
             )))
         }),
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::LaunchOptions;
+
+    #[test]
+    fn parses_demo_and_fullscreen_flags() {
+        let options = LaunchOptions::parse_from([
+            "--demo".to_owned(),
+            "Kanban board".to_owned(),
+            "--fullscreen".to_owned(),
+        ]);
+
+        assert_eq!(options.demo.as_deref(), Some("Kanban board"));
+        assert!(options.fullscreen);
+    }
+
+    #[test]
+    fn parses_equals_form_and_ignores_unknown_flags() {
+        let options = LaunchOptions::parse_from(["--demo=Dashboard", "--unknown"]);
+
+        assert_eq!(options.demo.as_deref(), Some("Dashboard"));
+        assert!(!options.fullscreen);
+    }
 }

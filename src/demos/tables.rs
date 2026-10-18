@@ -58,6 +58,8 @@ pub struct Tables {
     selected: Option<usize>,
     striped: bool,
     resizable: bool,
+    page: usize,
+    page_size: usize,
 }
 
 impl Default for Tables {
@@ -69,6 +71,8 @@ impl Default for Tables {
             selected: None,
             striped: true,
             resizable: true,
+            page: 0,
+            page_size: 5,
         }
     }
 }
@@ -133,11 +137,22 @@ impl Demo for Tables {
     }
 
     fn ui(&mut self, ui: &mut Ui) {
+        let page_count = self.rows.len().div_ceil(self.page_size);
+        self.page = self.page.min(page_count.saturating_sub(1));
+
         ui.horizontal(|ui| {
             ui.checkbox(&mut self.striped, "Striped");
             ui.checkbox(&mut self.resizable, "Resizable columns");
             ui.separator();
             ui.weak(format!("{} rows", self.rows.len()));
+            ui.separator();
+            ui.label(format!("Page {}/{}", self.page + 1, page_count));
+            if ui.button("Previous").clicked() {
+                self.page = self.page.saturating_sub(1);
+            }
+            if ui.button("Next").clicked() {
+                self.page = (self.page + 1).min(page_count.saturating_sub(1));
+            }
         });
         ui.add_space(6.0);
 
@@ -145,7 +160,12 @@ impl Demo for Tables {
         // the table is done, avoiding a mutable borrow of `self` inside it.
         let mut new_sort: Option<SortKey> = None;
         let mut new_selected: Option<usize> = None;
-        let order = self.order();
+        let order = self
+            .order()
+            .into_iter()
+            .skip(self.page * self.page_size)
+            .take(self.page_size)
+            .collect::<Vec<_>>();
 
         TableBuilder::new(ui)
             .striped(self.striped)

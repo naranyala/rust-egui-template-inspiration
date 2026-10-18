@@ -27,6 +27,11 @@ Panel order matters. Panels carve space from the parent `Ui`, and `CentralPanel`
 
 Each demo struct owns only its own interaction state. For example, the table owns sorting and selection, the tree owns its filter and selected path, and the progress demo owns its simulated task timer.
 
+This boundary is intentional for production adaptation: replace a demo's local
+sample data with an application service or model while keeping rendering and
+interaction state close to the pattern. The `UnsavedChanges` demo separates
+live text from a saved checkpoint and uses a pending action to guard navigation.
+
 ## Demo boundary
 
 The `Demo` trait in `src/demos/mod.rs` is intentionally small:
@@ -49,3 +54,7 @@ The launcher does not need to know how a pattern is drawn. It only uses the meta
 ## Why the examples are self-contained
 
 The gallery is intended as a reference, so demos favor local sample data and visible interactions over application infrastructure. A production application would usually move domain data, commands, persistence, and asynchronous work behind separate modules or services.
+
+The launcher is not a router, data cache, or persistence layer. Its `--demo`
+argument selects a presentation entry at startup; it does not model URL
+routing or application navigation history.

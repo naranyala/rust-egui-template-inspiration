@@ -6,7 +6,7 @@ The project is deliberately easy to read: the launcher owns navigation and share
 
 ## What is included
 
-The gallery currently contains **thirty-five** examples. Every entry below is a real, self-contained implementation in `src/demos/`, linked to its source so you can copy it directly. They are grouped by the launcher's categories.
+The gallery currently contains **thirty-seven** examples. Every entry below is a real, self-contained implementation in `src/demos/`, linked to its source so you can copy it directly. They are grouped by the launcher's categories.
 
 ### Layout
 
@@ -44,10 +44,12 @@ The gallery currently contains **thirty-five** examples. Every entry below is a 
 - **Form & validation** — [`src/demos/forms.rs`](src/demos/forms.rs): `Grid` rows, validation messages, submit/reset state.
 - **Input widgets** — [`src/demos/inputs.rs`](src/demos/inputs.rs): sliders, drags, toggles, radio buttons, combo boxes, colors.
 - **Keyboard focus & shortcuts** — [`src/demos/keyboard_nav.rs`](src/demos/keyboard_nav.rs): arrow-key focus traversal, activation, and shortcut discoverability.
+- **Unsaved changes** — [`src/demos/unsaved_changes.rs`](src/demos/unsaved_changes.rs): dirty tracking with guarded navigation and save/discard confirmation.
+- **Date, time & folder pickers** — [`src/demos/pickers.rs`](src/demos/pickers.rs): segmented date/time fields and a filesystem folder browser.
 
 ### Data
 
-- **Data table** — [`src/demos/tables.rs`](src/demos/tables.rs): sortable and striped rows, resizable columns, selection, virtualisation.
+- **Data table** — [`src/demos/tables.rs`](src/demos/tables.rs): sortable and striped rows, resizable columns, selection, pagination, and virtualisation.
 - **Diff / compare** — [`src/demos/diff_view.rs`](src/demos/diff_view.rs): unified and side-by-side source comparison with change highlighting.
 - **Tree / hierarchy** — [`src/demos/tree.rs`](src/demos/tree.rs): recursive `CollapsingHeader` nodes and filtered branches.
 - **Charts** — [`src/demos/plots.rs`](src/demos/plots.rs): a painter-based line and bar chart with hover feedback.
@@ -56,7 +58,7 @@ The gallery currently contains **thirty-five** examples. Every entry below is a 
 ### Feedback
 
 - **Progress & status** — [`src/demos/progress.rs`](src/demos/progress.rs): determinate/indeterminate progress, spinners, repaint timers.
-- **Feedback states** — [`src/demos/feedback_states.rs`](src/demos/feedback_states.rs): loading, empty, error, retry, success, and toast states.
+- **Feedback states** — [`src/demos/feedback_states.rs`](src/demos/feedback_states.rs): loading, empty, error, retry, skeleton, success, toast, and notification-center states.
 
 The launcher also provides:
 
@@ -91,6 +93,10 @@ cargo clippy --all-targets --all-features -- -D warnings
 
 The application opens at 1200×800 and supports shrinking to 760×520. On Linux, the selected `eframe` features use X11 or Wayland; the exact native runtime libraries depend on the distribution.
 
+For CI or machines without a compositor, use `cargo check`, `cargo test`, and
+the headless render test. Native `cargo run` and PNG capture require a working
+desktop session and graphics backend.
+
 ## Project structure
 
 ```text
@@ -108,6 +114,14 @@ The application opens at 1200×800 and supports shrinking to 760×520. On Linux,
 ```
 
 Read [the architecture guide](docs/architecture.md) for the frame layout and state flow, or [the pattern guide](docs/adding-patterns.md) to add an example.
+
+## Documentation map
+
+- [Demo catalog](docs/demo-catalog.md) — every registered pattern and its source file.
+- [Architecture](docs/architecture.md) — launcher structure, panel order, and state ownership.
+- [Adding patterns](docs/adding-patterns.md) — registration, design guidance, and verification steps.
+- [Testing](docs/testing.md) — unit, headless-render, lint, and screenshot checks.
+- [egui notes](docs/egui-notes.md) — version-specific API and renderer guidance.
 
 ## Adding a pattern
 
@@ -150,6 +164,10 @@ EFRAME_SCREENSHOT_TO=screenshots/three-pane.png \
 ```
 
 Use `cargo run -- --help` to see the available launch flags. The screenshot feature uses eframe's Glow renderer and is intended for visual documentation and README updates.
+
+Screenshot capture is not a headless test: it needs a native compositor and
+windowing environment. Keep it as a visual documentation step alongside the
+headless checks in [docs/testing.md](docs/testing.md).
 
 ## License
 

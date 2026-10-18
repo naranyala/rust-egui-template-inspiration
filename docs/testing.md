@@ -21,8 +21,14 @@ cargo fmt -- --check
 - Tree filtering preserves matching ancestor folders.
 - Tree file icons map known extensions correctly.
 - Wizard navigation blocks incomplete steps.
+- Launch-option parsing covers `--demo`, `--demo=NAME`, and `--fullscreen`.
+- Unsaved-change state transitions cover checkpointing and discard behavior.
 
 The render test intentionally calls every demo through the same `Demo` trait used by the launcher. It catches broken registration, invalid widget construction, and many borrow/state regressions without trying to assert pixels.
+
+The current suite contains 12 tests, including one-frame rendering for all 37
+registered demos. Keep this count descriptive rather than treating it as a
+hard limit; the registry invariant is the source of truth.
 
 ## Adding tests with a new demo
 
@@ -32,6 +38,15 @@ The render test intentionally calls every demo through the same `Demo` trait use
 4. Keep rendering smoke-test-safe: do not assume a native display exists.
 
 For visual verification, run `cargo run` on a desktop session and manually exercise the new pattern in both dark and light themes.
+
+For screenshot-enabled compilation without opening a window, run:
+
+```bash
+cargo check --features screenshots
+```
+
+Actual PNG capture still requires a compositor. It is a documentation and
+visual-QA step, not a replacement for the headless test.
 
 ## Capturing a template screenshot
 
