@@ -10,6 +10,7 @@
 pub mod buttons;
 pub mod canvas;
 pub mod forms;
+pub mod grid;
 pub mod inputs;
 pub mod panels;
 pub mod plots;
@@ -69,6 +70,7 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
     vec![
         Box::<panels::Panels>::default(),
         Box::<forms::Forms>::default(),
+        Box::<grid::Grids>::default(),
         Box::<inputs::Inputs>::default(),
         Box::<buttons::Buttons>::default(),
         Box::<tables::Tables>::default(),
