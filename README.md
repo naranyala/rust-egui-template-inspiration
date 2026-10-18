@@ -6,12 +6,22 @@ The project is deliberately easy to read: the launcher owns navigation and share
 
 ## What is included
 
-The gallery currently contains ten examples:
+The gallery currently contains twenty examples:
 
 | Category | Pattern | Main ideas |
 | --- | --- | --- |
 | Layout | Panel layout | Nested panels, columns, wrapping, resize behavior |
 | Layout | Canvas / drawing | `allocate_exact_size`, painter primitives, freehand strokes, undo |
+| Layout | Dashboard | KPI cards, responsive wrapping, and summary panels |
+| Layout | Master–detail | Searchable list, detail pane, and optional metadata |
+| Layout | Wizard / stepper | Guided workflow, validation, and guarded navigation |
+| Layout | Grid layout | Aligned rows/columns and nested grids |
+| Layout | Split panes | Resizable horizontal and vertical work areas |
+| Layout | Tabs | Tab navigation built from selectable labels |
+| Layout | Settings page | Navigation rail, grouped preferences, and search |
+| Layout | Kanban board | Horizontal columns, cards, and compact repeated surfaces |
+| Layout | Timeline / activity | Date groups, event markers, and a scrollable activity feed |
+| Layout | Command center | Dense operations screen with alerts and live events |
 | Widgets | Buttons & actions | Button variants, menus, busy states, selectable groups, shortcuts |
 | Widgets | Popups & modals | Tooltips, context menus, menu buttons, blocking dialogs |
 | Input | Form & validation | `Grid` rows, validation messages, submit/reset state |
@@ -86,6 +96,18 @@ The launcher discovers patterns from the registry and automatically displays the
 - egui is immediate-mode: state lives in the demo struct, and the UI is rebuilt each frame. Timed examples explicitly request repaints with `request_repaint_after`.
 
 See [docs/egui-notes.md](docs/egui-notes.md) for the version-specific API choices and common pitfalls.
+
+## Testing
+
+The project includes registry invariants, validation/sorting/filtering tests, and a headless render smoke test that exercises every registered demo. Run the full local gate with:
+
+```bash
+cargo test --all-targets
+cargo clippy --all-targets --all-features -- -D warnings
+cargo fmt -- --check
+```
+
+See [docs/testing.md](docs/testing.md) for coverage details and guidance for testing new patterns.
 
 ## License
 

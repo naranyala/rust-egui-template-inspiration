@@ -112,20 +112,23 @@ impl Tree {
             Kind::Folder => {
                 // `CollapsingHeader` handles the arrow, the indentation and the
                 // open/closed state (persisted across frames automatically).
-                let response = ui.collapsing(
-                    RichText::new(format!("📁 {}", node.name)).strong(),
-                    |ui| {
+                let response =
+                    ui.collapsing(RichText::new(format!("📁 {}", node.name)).strong(), |ui| {
                         for child in &node.children {
                             Self::node_ui(ui, child, needle, selected);
                         }
-                    },
-                );
+                    });
                 let _ = response;
             }
             Kind::File(icon) => {
                 let path = node.name.to_owned();
-                let is_selected = selected.as_ref().is_some_and(|p| p.len() == 1 && p[0] == path);
-                if ui.selectable_label(is_selected, format!("{icon} {}", node.name)).clicked() {
+                let is_selected = selected
+                    .as_ref()
+                    .is_some_and(|p| p.len() == 1 && p[0] == path);
+                if ui
+                    .selectable_label(is_selected, format!("{icon} {}", node.name))
+                    .clicked()
+                {
                     *selected = Some(vec![path]);
                 }
             }
@@ -188,5 +191,26 @@ impl Demo for Tree {
                 ui.weak("Nothing selected — click a file in the tree.");
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn tree_filter_keeps_matching_ancestors() {
+        let nodes = sample_tree();
+        assert!(nodes[0].matches("tables"));
+        assert!(!nodes[1].matches("tables"));
+        assert!(nodes[3].matches("cargo"));
+    }
+
+    #[test]
+    fn file_icons_follow_known_extensions() {
+        assert_eq!(icon("main.rs"), "🦀");
+        assert_eq!(icon("README.md"), "📄");
+        assert_eq!(icon("image.png"), "🖼️");
+        assert_eq!(icon("unknown.bin"), "•");
     }
 }

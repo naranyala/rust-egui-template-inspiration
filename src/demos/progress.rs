@@ -67,12 +67,12 @@ impl Demo for Progress {
                 self.log.push(format!(
                     "finished job #{} in {:.1}s",
                     self.log.len() + 1,
-                    now.duration_since(self.started.unwrap_or(now)).as_secs_f32()
+                    now.duration_since(self.started.unwrap_or(now))
+                        .as_secs_f32()
                 ));
             } else {
                 // Nothing repaints on its own: ask egui to come back shortly.
-                ui.ctx()
-                    .request_repaint_after(Duration::from_millis(50));
+                ui.ctx().request_repaint_after(Duration::from_millis(50));
             }
         }
 
@@ -121,7 +121,10 @@ impl Demo for Progress {
         let steps = [("Downloading", 0.9), ("Compiling", 0.55), ("Linking", 0.1)];
         for (name, fraction) in steps {
             ui.horizontal(|ui| {
-                ui.add_sized([110.0, 16.0], egui::ProgressBar::new(fraction).animate(true));
+                ui.add_sized(
+                    [110.0, 16.0],
+                    egui::ProgressBar::new(fraction).animate(true),
+                );
                 ui.weak(format!("{} {:.0}%", name, fraction * 100.0));
             });
         }
@@ -157,8 +160,7 @@ impl Demo for Progress {
         if let Some(started) = self.started {
             ui.add_space(6.0);
             ui.label(
-                RichText::new(format!("Elapsed: {:.1}s", started.elapsed().as_secs_f32()))
-                    .weak(),
+                RichText::new(format!("Elapsed: {:.1}s", started.elapsed().as_secs_f32())).weak(),
             );
         }
     }

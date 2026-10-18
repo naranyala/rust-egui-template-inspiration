@@ -82,8 +82,7 @@ impl Demo for Buttons {
                 self.started = None;
                 self.toast = Some("Job finished.".to_owned());
             } else {
-                ui.ctx()
-                    .request_repaint_after(Duration::from_millis(100));
+                ui.ctx().request_repaint_after(Duration::from_millis(100));
             }
         }
 

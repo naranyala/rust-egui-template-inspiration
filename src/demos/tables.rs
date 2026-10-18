@@ -109,7 +109,10 @@ impl Tables {
             ""
         };
         let label = format!("{title}{arrow}");
-        if ui.selectable_label(sort == key, RichText::new(label).strong()).clicked() {
+        if ui
+            .selectable_label(sort == key, RichText::new(label).strong())
+            .clicked()
+        {
             *on_click = Some(key);
         }
     }
@@ -248,4 +251,24 @@ fn sample_rows() -> Vec<Row> {
             age_days,
         })
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn table_order_respects_ascending_and_descending_sort() {
+        let mut table = Tables {
+            sort: SortKey::Size,
+            ascending: true,
+            ..Default::default()
+        };
+        let ascending = table.order();
+        assert_eq!(table.rows[ascending[0]].name, "Cargo.toml");
+
+        table.ascending = false;
+        let descending = table.order();
+        assert_eq!(table.rows[descending[0]].name, "Cargo.lock");
+    }
 }

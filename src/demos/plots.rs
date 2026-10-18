@@ -9,7 +9,7 @@
 //! editors.
 
 use super::{Category, Demo};
-use egui::{pos2, vec2, Color32, Pos2, Rect, Ui};
+use egui::{Color32, Pos2, Rect, Ui, pos2, vec2};
 use std::time::Duration;
 
 /// Vertical range of the data, in data units.
@@ -71,8 +71,7 @@ impl Demo for Plots {
         if self.animate {
             // Drive the animation by asking for a repaint — nothing repaints on
             // its own in an immediate-mode UI.
-            ui.ctx()
-                .request_repaint_after(Duration::from_millis(16));
+            ui.ctx().request_repaint_after(Duration::from_millis(16));
             self.phase += 0.03;
         }
 

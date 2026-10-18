@@ -97,10 +97,10 @@ impl Demo for Forms {
         // Only show errors for fields the user has already touched.
         let name_error = (!self.name.is_empty() && self.name.trim().is_empty())
             .then_some("Name cannot be blank.");
-        let email_error = (!self.email.is_empty() && !self.email.contains('@'))
-            .then_some("Missing '@'.");
-        let password_error = (self.password.len() < 8 && !self.password.is_empty())
-            .then_some("Too short.");
+        let email_error =
+            (!self.email.is_empty() && !self.email.contains('@')).then_some("Missing '@'.");
+        let password_error =
+            (self.password.len() < 8 && !self.password.is_empty()).then_some("Too short.");
 
         Grid::new("form_grid")
             .num_columns(2)
@@ -134,9 +134,7 @@ impl Demo for Forms {
 
                 Self::row(ui, "Role", None, |ui| {
                     ComboBox::from_id_salt("form_role")
-                        .selected_text(
-                            self.role.map(Role::label).unwrap_or("Choose…"),
-                        )
+                        .selected_text(self.role.map(Role::label).unwrap_or("Choose…"))
                         .show_ui(ui, |ui| {
                             for role in Role::ALL {
                                 ui.selectable_value(&mut self.role, Some(role), role.label());
@@ -152,7 +150,8 @@ impl Demo for Forms {
         ui.add_space(12.0);
 
         ui.horizontal(|ui| {
-            if ui.add(egui::Button::new("Submit").fill(ui.visuals().selection.bg_fill))
+            if ui
+                .add(egui::Button::new("Submit").fill(ui.visuals().selection.bg_fill))
                 .clicked()
             {
                 self.submit();
@@ -166,10 +165,7 @@ impl Demo for Forms {
             ui.add_space(8.0);
             match status {
                 Ok(()) => {
-                    ui.colored_label(
-                        ui.visuals().widgets.active.bg_fill,
-                        "✓ Account created.",
-                    );
+                    ui.colored_label(ui.visuals().widgets.active.bg_fill, "✓ Account created.");
                 }
                 Err(message) => {
                     // A framed, error-tinted box listing everything at once.
@@ -184,5 +180,37 @@ impl Demo for Forms {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn empty_form_reports_all_required_fields() {
+        let mut form = Forms::default();
+        form.submit();
+
+        let Some(Err(message)) = form.status else {
+            panic!("empty form should be rejected");
+        };
+        assert!(message.contains("Name is required."));
+        assert!(message.contains("Email must look like an address."));
+        assert!(message.contains("Password must be at least 8 characters."));
+        assert!(message.contains("Pick a role."));
+    }
+
+    #[test]
+    fn complete_form_is_accepted() {
+        let mut form = Forms {
+            name: "Ada Lovelace".into(),
+            email: "ada@example.com".into(),
+            password: "correct horse".into(),
+            role: Some(Role::Admin),
+            ..Default::default()
+        };
+        form.submit();
+        assert_eq!(form.status, Some(Ok(())));
     }
 }

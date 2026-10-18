@@ -123,11 +123,7 @@ impl Demo for Canvas {
                 continue;
             }
             if stroke.points.len() == 1 {
-                painter.circle_filled(
-                    stroke.points[0],
-                    stroke.width * 0.5,
-                    stroke.color,
-                );
+                painter.circle_filled(stroke.points[0], stroke.width * 0.5, stroke.color);
             } else {
                 painter.add(egui::Shape::line(
                     stroke.points.clone(),

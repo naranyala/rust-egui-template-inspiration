@@ -9,15 +9,24 @@
 
 pub mod buttons;
 pub mod canvas;
+pub mod command_center;
+pub mod dashboard;
 pub mod forms;
 pub mod grid;
 pub mod inputs;
+pub mod kanban;
+pub mod master_detail;
 pub mod panels;
 pub mod plots;
 pub mod popups;
 pub mod progress;
+pub mod settings;
+pub mod split;
 pub mod tables;
+pub mod tabs;
+pub mod timeline;
 pub mod tree;
+pub mod wizard;
 
 /// Grouping used to organise the launcher's sidebar.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -69,6 +78,13 @@ pub trait Demo {
 pub fn all_demos() -> Vec<Box<dyn Demo>> {
     vec![
         Box::<panels::Panels>::default(),
+        Box::<dashboard::Dashboard>::default(),
+        Box::<master_detail::MasterDetail>::default(),
+        Box::<wizard::Wizard>::default(),
+        Box::<settings::Settings>::default(),
+        Box::<kanban::Kanban>::default(),
+        Box::<timeline::Timeline>::default(),
+        Box::<command_center::CommandCenter>::default(),
         Box::<forms::Forms>::default(),
         Box::<grid::Grids>::default(),
         Box::<inputs::Inputs>::default(),
@@ -76,8 +92,63 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
         Box::<tables::Tables>::default(),
         Box::<tree::Tree>::default(),
         Box::<popups::Popups>::default(),
+        Box::<split::Splits>::default(),
+        Box::<tabs::Tabs>::default(),
         Box::<plots::Plots>::default(),
         Box::<canvas::Canvas>::default(),
         Box::<progress::Progress>::default(),
     ]
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashSet;
+
+    #[test]
+    fn registry_has_unique_metadata_for_every_demo() {
+        let demos = all_demos();
+        assert_eq!(demos.len(), 20);
+
+        let names: HashSet<_> = demos.iter().map(|demo| demo.name()).collect();
+        assert_eq!(names.len(), demos.len(), "demo names must be unique");
+        assert!(
+            demos
+                .iter()
+                .all(|demo| !demo.description().trim().is_empty())
+        );
+        assert!(
+            Category::ALL
+                .iter()
+                .all(|category| { demos.iter().any(|demo| demo.category() == *category) })
+        );
+
+        for expected in [
+            "Dashboard",
+            "Master–detail",
+            "Wizard / stepper",
+            "Settings page",
+            "Kanban board",
+            "Timeline / activity",
+            "Command center",
+        ] {
+            assert!(
+                names.contains(expected),
+                "missing registered demo: {expected}"
+            );
+        }
+    }
+
+    #[test]
+    fn every_demo_can_render_one_frame() {
+        let ctx = egui::Context::default();
+        let mut demos = all_demos();
+
+        for demo in &mut demos {
+            let mut output = ctx.run_ui(egui::RawInput::default(), |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| demo.ui(ui));
+            });
+            output.textures_delta.clear();
+        }
+    }
 }

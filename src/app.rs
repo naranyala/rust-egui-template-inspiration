@@ -55,9 +55,7 @@ impl LauncherApp {
 
     fn sidebar(&mut self, ui: &mut Ui) {
         // `/` focuses the search box, unless the user is already typing.
-        if ui.input(|i| i.key_pressed(egui::Key::Slash))
-            && !ui.ctx().egui_wants_keyboard_input()
-        {
+        if ui.input(|i| i.key_pressed(egui::Key::Slash)) && !ui.ctx().egui_wants_keyboard_input() {
             self.focus_search = true;
         }
 
@@ -130,10 +128,7 @@ impl LauncherApp {
 
     fn status_bar(&mut self, ui: &mut Ui) {
         ui.horizontal(|ui| {
-            ui.weak(format!(
-                "{} patterns",
-                self.demos.len()
-            ));
+            ui.weak(format!("{} patterns", self.demos.len()));
             ui.separator();
             ui.weak(format!("Selected: {}", self.demos[self.selected].name()));
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {

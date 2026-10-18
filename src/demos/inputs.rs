@@ -131,16 +131,11 @@ impl Demo for Inputs {
         ui.horizontal(|ui| {
             ui.label("Currently held keys:");
             let keys = ui.input(|i| {
-                [
-                    egui::Key::A,
-                    egui::Key::S,
-                    egui::Key::D,
-                    egui::Key::F,
-                ]
-                .iter()
-                .filter(|key| i.key_down(**key))
-                .map(|key| format!("{key:?}"))
-                .collect::<Vec<_>>()
+                [egui::Key::A, egui::Key::S, egui::Key::D, egui::Key::F]
+                    .iter()
+                    .filter(|key| i.key_down(**key))
+                    .map(|key| format!("{key:?}"))
+                    .collect::<Vec<_>>()
             });
             if keys.is_empty() {
                 ui.weak("none — try holding A/S/D/F");
