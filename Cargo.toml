@@ -1,0 +1,38 @@
+[package]
+name = "rust-egui-template-inspiration"
+version = "0.1.0"
+edition = "2024"
+description = "An egui pattern launcher: a gallery of common UI layouts and widgets"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+# The egui framework. We disable the default features because they pull in the
+# heavy `wgpu` renderer, and opt into `glow` (OpenGL) instead: much faster to
+# compile and a smaller binary. The rest of the features are eframe defaults.
+eframe = { version = "0.37", default-features = false, features = [
+    "glow",
+    "default_fonts",
+    "accesskit",
+    "clipboard",
+    "links",
+    "system_fonts",
+    "x11",
+    "wayland",
+] }
+
+# egui itself, for widgets/containers not re-exported by eframe.
+egui = "0.37"
+
+# Tables, strips (grid layouts), SVG/image loaders, …
+egui_extras = "0.37"
+
+# NOTE: `egui_plot` is currently built against egui 0.36, so pulling it in here
+# would add a second, incompatible copy of egui/ecolor to the tree. The chart
+# demo in `src/demos/plots.rs` is therefore drawn with the painter directly —
+# swap in `egui_plot` once it catches up to your egui version.
+
+# egui is immediate-mode, so every frame re-runs your UI code. Debug builds
+# without optimizations feel noticeably sluggish, so opt them up a little.
+# Remove this if compile speed matters more to you than UI responsiveness.
+[profile.dev]
+opt-level = 2
