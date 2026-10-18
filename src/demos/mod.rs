@@ -7,23 +7,38 @@
 //! 2. add `pub mod my_pattern;` below,
 //! 3. push `Box::new(my_pattern::MyPattern::default())` in [`all_demos`].
 
+pub mod accordion;
+pub mod bulk_selection;
 pub mod buttons;
+pub mod calendar;
 pub mod canvas;
 pub mod command_center;
+pub mod command_palette;
 pub mod dashboard;
+pub mod diff_view;
+pub mod document_tabs;
+pub mod editor_workspace;
+pub mod feedback_states;
+pub mod floating;
 pub mod forms;
 pub mod grid;
 pub mod inputs;
+pub mod inspector;
 pub mod kanban;
+pub mod keyboard_nav;
+pub mod masonry;
 pub mod master_detail;
+pub mod nav_rail;
 pub mod panels;
 pub mod plots;
 pub mod popups;
 pub mod progress;
+pub mod responsive;
 pub mod settings;
 pub mod split;
 pub mod tables;
 pub mod tabs;
+pub mod three_pane;
 pub mod timeline;
 pub mod tree;
 pub mod wizard;
@@ -79,6 +94,11 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
     vec![
         Box::<panels::Panels>::default(),
         Box::<dashboard::Dashboard>::default(),
+        Box::<three_pane::ThreePane>::default(),
+        Box::<nav_rail::NavRail>::default(),
+        Box::<document_tabs::DocumentTabs>::default(),
+        Box::<editor_workspace::EditorWorkspace>::default(),
+        Box::<responsive::Responsive>::default(),
         Box::<master_detail::MasterDetail>::default(),
         Box::<wizard::Wizard>::default(),
         Box::<settings::Settings>::default(),
@@ -87,16 +107,26 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
         Box::<command_center::CommandCenter>::default(),
         Box::<forms::Forms>::default(),
         Box::<grid::Grids>::default(),
+        Box::<bulk_selection::BulkSelection>::default(),
         Box::<inputs::Inputs>::default(),
+        Box::<keyboard_nav::KeyboardNav>::default(),
         Box::<buttons::Buttons>::default(),
         Box::<tables::Tables>::default(),
+        Box::<diff_view::DiffView>::default(),
         Box::<tree::Tree>::default(),
         Box::<popups::Popups>::default(),
         Box::<split::Splits>::default(),
         Box::<tabs::Tabs>::default(),
+        Box::<floating::Floating>::default(),
+        Box::<accordion::Accordion>::default(),
+        Box::<masonry::Masonry>::default(),
         Box::<plots::Plots>::default(),
         Box::<canvas::Canvas>::default(),
         Box::<progress::Progress>::default(),
+        Box::<command_palette::CommandPalette>::default(),
+        Box::<inspector::Inspector>::default(),
+        Box::<feedback_states::FeedbackStates>::default(),
+        Box::<calendar::Calendar>::default(),
     ]
 }
 
@@ -108,7 +138,7 @@ mod tests {
     #[test]
     fn registry_has_unique_metadata_for_every_demo() {
         let demos = all_demos();
-        assert_eq!(demos.len(), 20);
+        assert_eq!(demos.len(), 35);
 
         let names: HashSet<_> = demos.iter().map(|demo| demo.name()).collect();
         assert_eq!(names.len(), demos.len(), "demo names must be unique");
@@ -131,6 +161,21 @@ mod tests {
             "Kanban board",
             "Timeline / activity",
             "Command center",
+            "Floating windows",
+            "Masonry / flow",
+            "Accordion sections",
+            "Three-pane workspace",
+            "Document tabs",
+            "Responsive layout",
+            "Command palette",
+            "Property inspector",
+            "Feedback states",
+            "Calendar / scheduler",
+            "Editor workspace",
+            "Nav rail + breadcrumbs",
+            "Grouped bulk selection",
+            "Diff / compare",
+            "Keyboard focus & shortcuts",
         ] {
             assert!(
                 names.contains(expected),

@@ -61,14 +61,17 @@ impl Demo for Progress {
             self.value = (self.value + delta / 4.0).min(1.0);
 
             if self.value >= 1.0 {
+                let elapsed = self
+                    .started
+                    .map(|started| now.duration_since(started).as_secs_f32())
+                    .unwrap_or_default();
                 self.running = false;
                 self.started = None;
                 self.last_tick = None;
                 self.log.push(format!(
                     "finished job #{} in {:.1}s",
                     self.log.len() + 1,
-                    now.duration_since(self.started.unwrap_or(now))
-                        .as_secs_f32()
+                    elapsed
                 ));
             } else {
                 // Nothing repaints on its own: ask egui to come back shortly.

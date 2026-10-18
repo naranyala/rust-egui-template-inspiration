@@ -9,6 +9,9 @@ use egui::{Align, Layout, RichText, Ui};
 pub struct Settings {
     section: usize,
     search: String,
+    workspace_name: String,
+    language: usize,
+    theme: usize,
     notifications: bool,
     telemetry: bool,
     compact_mode: bool,
@@ -61,8 +64,17 @@ impl Demo for Settings {
                     0 => {
                         Self::group(ui, "Workspace", |ui| {
                             ui.label("Workspace name");
-                            ui.label("egui pattern gallery");
-                            ui.label("Language: English");
+                            ui.text_edit_singleline(&mut self.workspace_name);
+                            ui.label("Language");
+                            egui::ComboBox::from_id_salt("settings_language")
+                                .selected_text(["English", "Japanese", "German"][self.language])
+                                .show_ui(ui, |ui| {
+                                    for (index, label) in
+                                        ["English", "Japanese", "German"].iter().enumerate()
+                                    {
+                                        ui.selectable_value(&mut self.language, index, *label);
+                                    }
+                                });
                         });
                     }
                     1 => {
@@ -72,9 +84,12 @@ impl Demo for Settings {
                         });
                         Self::group(ui, "Theme", |ui| {
                             ui.horizontal(|ui| {
-                                let _ = ui.selectable_label(true, "System");
-                                let _ = ui.selectable_label(false, "Light");
-                                let _ = ui.selectable_label(false, "Dark");
+                                for (index, label) in ["System", "Light", "Dark"].iter().enumerate()
+                                {
+                                    if ui.selectable_label(self.theme == index, *label).clicked() {
+                                        self.theme = index;
+                                    }
+                                }
                             });
                         });
                     }

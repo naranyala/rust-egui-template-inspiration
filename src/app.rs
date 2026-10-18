@@ -27,16 +27,35 @@ pub struct LauncherApp {
     /// Set when the `/` shortcut wants to move focus into the search box.
     focus_search: bool,
     theme: ThemeState,
+    presentation_mode: bool,
 }
 
 impl LauncherApp {
-    pub fn new(_cc: &eframe::CreationContext<'_>, theme: ThemeState) -> Self {
+    pub fn new(
+        _cc: &eframe::CreationContext<'_>,
+        theme: ThemeState,
+        requested_demo: Option<&str>,
+        presentation_mode: bool,
+    ) -> Self {
+        let demos = crate::demos::all_demos();
+        let selected = requested_demo
+            .and_then(|requested| {
+                demos.iter().position(|demo| {
+                    demo.name().eq_ignore_ascii_case(requested)
+                        || demo
+                            .name()
+                            .to_lowercase()
+                            .contains(&requested.to_lowercase())
+                })
+            })
+            .unwrap_or(0);
         Self {
-            demos: crate::demos::all_demos(),
-            selected: 0,
+            demos,
+            selected,
             filter: String::new(),
             focus_search: false,
             theme,
+            presentation_mode,
         }
     }
 
@@ -140,6 +159,15 @@ impl LauncherApp {
 
 impl eframe::App for LauncherApp {
     fn ui(&mut self, ui: &mut Ui, _frame: &mut eframe::Frame) {
+        if self.presentation_mode {
+            egui::CentralPanel::default().show(ui, |ui| {
+                egui::ScrollArea::vertical().show(ui, |ui| {
+                    self.demo_view(ui);
+                });
+            });
+            return;
+        }
+
         egui::Panel::top("top_bar").exact_size(36.0).show(ui, |ui| {
             self.top_bar(ui);
         });

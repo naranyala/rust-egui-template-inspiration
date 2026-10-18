@@ -11,6 +11,10 @@ use egui::{Grid, RichText, Ui};
 pub struct Grids {
     show_borders: bool,
     spacing: f32,
+    username: String,
+    password: String,
+    role: i32,
+    bio: String,
 }
 
 impl Demo for Grids {
@@ -61,22 +65,22 @@ impl Demo for Grids {
             .spacing([self.spacing, 6.0])
             .show(ui, |ui| {
                 ui.label("Username");
-                ui.text_edit_singleline(&mut String::new());
+                ui.text_edit_singleline(&mut self.username);
                 ui.end_row();
 
                 ui.label("Password");
-                ui.add(egui::TextEdit::singleline(&mut String::new()).password(true));
+                ui.add(egui::TextEdit::singleline(&mut self.password).password(true));
                 ui.end_row();
 
                 ui.label("Role");
                 ui.horizontal(|ui| {
-                    ui.selectable_value(&mut 0i32, 0, "Admin");
-                    ui.selectable_value(&mut 0i32, 1, "User");
+                    ui.selectable_value(&mut self.role, 0, "Admin");
+                    ui.selectable_value(&mut self.role, 1, "User");
                 });
                 ui.end_row();
 
                 ui.label("Bio");
-                ui.text_edit_multiline(&mut String::new());
+                ui.text_edit_multiline(&mut self.bio);
                 ui.end_row();
             });
         ui.add_space(8.0);
@@ -109,7 +113,7 @@ impl Demo for Grids {
             });
 
         if self.show_borders {
-            ui.weak("Borders toggle is cosmetic here; enable via Grid::show");
+            ui.weak("Borders are represented by striped rows and the surrounding grid frame.");
         }
     }
 }

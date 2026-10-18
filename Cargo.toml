@@ -36,3 +36,7 @@ egui_extras = "0.37"
 # Remove this if compile speed matters more to you than UI responsiveness.
 [profile.dev]
 opt-level = 2
+
+[features]
+# Enables eframe's built-in Glow screenshot hook. Use with EFRAME_SCREENSHOT_TO.
+screenshots = ["eframe/__screenshot"]

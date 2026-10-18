@@ -9,6 +9,7 @@ use egui::{Align, Layout, RichText, Ui};
 pub struct CommandCenter {
     selected: usize,
     acknowledged: bool,
+    refreshes: u32,
 }
 
 impl Demo for CommandCenter {
@@ -59,7 +60,10 @@ impl Demo for CommandCenter {
             ui.horizontal(|ui| {
                 ui.heading(["Overview", "Services", "Deployments", "Incidents"][self.selected]);
                 ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
-                    let _ = ui.button("Refresh");
+                    if ui.button("Refresh").clicked() {
+                        self.refreshes += 1;
+                        self.acknowledged = false;
+                    }
                 });
             });
             ui.separator();
@@ -67,7 +71,7 @@ impl Demo for CommandCenter {
                 ui.horizontal(|ui| {
                     ui.colored_label(ui.visuals().error_fg_color, "● 2 active alerts");
                     ui.separator();
-                    ui.weak("Last updated just now");
+                    ui.weak(format!("Refreshed {} times", self.refreshes));
                     if !self.acknowledged && ui.button("Acknowledge").clicked() {
                         self.acknowledged = true;
                     }

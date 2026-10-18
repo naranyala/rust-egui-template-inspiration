@@ -32,3 +32,16 @@ The render test intentionally calls every demo through the same `Demo` trait use
 4. Keep rendering smoke-test-safe: do not assume a native display exists.
 
 For visual verification, run `cargo run` on a desktop session and manually exercise the new pattern in both dark and light themes.
+
+## Capturing a template screenshot
+
+The project exposes a reproducible presentation mode for screenshots:
+
+```bash
+mkdir -p screenshots
+EFRAME_SCREENSHOT_TO=screenshots/dashboard.png \
+  cargo run --features screenshots -- \
+  --demo "Dashboard" --fullscreen
+```
+
+`--demo` accepts a case-insensitive name or name fragment. `--fullscreen` hides the launcher chrome and renders only the selected template. eframe captures the rendered Glow viewport after it settles, writes the PNG, and exits.

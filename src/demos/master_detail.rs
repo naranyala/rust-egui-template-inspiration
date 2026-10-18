@@ -11,6 +11,7 @@ pub struct MasterDetail {
     selected: usize,
     filter: String,
     show_metadata: bool,
+    next_steps: [bool; 3],
 }
 
 impl Demo for MasterDetail {
@@ -115,12 +116,15 @@ impl Demo for MasterDetail {
                 ui.label(summary);
                 ui.add_space(12.0);
                 ui.strong("Next steps");
-                for step in [
+                for (index, step) in [
                     "Confirm scope with stakeholders",
                     "Review open tasks",
                     "Schedule the next checkpoint",
-                ] {
-                    ui.checkbox(&mut false, step);
+                ]
+                .into_iter()
+                .enumerate()
+                {
+                    ui.checkbox(&mut self.next_steps[index], step);
                 }
 
                 if self.show_metadata {

@@ -6,30 +6,57 @@ The project is deliberately easy to read: the launcher owns navigation and share
 
 ## What is included
 
-The gallery currently contains twenty examples:
+The gallery currently contains **thirty-five** examples. Every entry below is a real, self-contained implementation in `src/demos/`, linked to its source so you can copy it directly. They are grouped by the launcher's categories.
 
-| Category | Pattern | Main ideas |
-| --- | --- | --- |
-| Layout | Panel layout | Nested panels, columns, wrapping, resize behavior |
-| Layout | Canvas / drawing | `allocate_exact_size`, painter primitives, freehand strokes, undo |
-| Layout | Dashboard | KPI cards, responsive wrapping, and summary panels |
-| Layout | Master–detail | Searchable list, detail pane, and optional metadata |
-| Layout | Wizard / stepper | Guided workflow, validation, and guarded navigation |
-| Layout | Grid layout | Aligned rows/columns and nested grids |
-| Layout | Split panes | Resizable horizontal and vertical work areas |
-| Layout | Tabs | Tab navigation built from selectable labels |
-| Layout | Settings page | Navigation rail, grouped preferences, and search |
-| Layout | Kanban board | Horizontal columns, cards, and compact repeated surfaces |
-| Layout | Timeline / activity | Date groups, event markers, and a scrollable activity feed |
-| Layout | Command center | Dense operations screen with alerts and live events |
-| Widgets | Buttons & actions | Button variants, menus, busy states, selectable groups, shortcuts |
-| Widgets | Popups & modals | Tooltips, context menus, menu buttons, blocking dialogs |
-| Input | Form & validation | `Grid` rows, validation messages, submit/reset state |
-| Input | Input widgets | Sliders, drags, toggles, radio buttons, combo boxes, colors |
-| Data | Data table | Sortable and striped rows, resizable columns, selection, virtualisation |
-| Data | Tree / hierarchy | Recursive `CollapsingHeader` nodes and filtered branches |
-| Data | Charts | A painter-based line and bar chart with hover feedback |
-| Feedback | Progress & status | Determinate/indeterminate progress, spinners, repaint timers |
+### Layout
+
+- **Panel layout** — [`src/demos/panels.rs`](src/demos/panels.rs): nested `egui::Panel`s, columns, wrapping, and resize behavior.
+- **Canvas / drawing** — [`src/demos/canvas.rs`](src/demos/canvas.rs): `allocate_exact_size`, painter primitives, freehand strokes, and undo.
+- **Dashboard** — [`src/demos/dashboard.rs`](src/demos/dashboard.rs): KPI cards, responsive wrapping, and summary panels.
+- **Master–detail** — [`src/demos/master_detail.rs`](src/demos/master_detail.rs): searchable list, detail pane, and optional metadata.
+- **Wizard / stepper** — [`src/demos/wizard.rs`](src/demos/wizard.rs): guided workflow, validation, and guarded navigation.
+- **Grid layout** — [`src/demos/grid.rs`](src/demos/grid.rs): aligned rows/columns and nested grids.
+- **Split panes** — [`src/demos/split.rs`](src/demos/split.rs): resizable horizontal and vertical work areas.
+- **Tabs** — [`src/demos/tabs.rs`](src/demos/tabs.rs): tab navigation built from selectable labels.
+- **Document tabs** — [`src/demos/document_tabs.rs`](src/demos/document_tabs.rs): closable tabs with dirty-state indicators and new-document actions.
+- **Floating windows** — [`src/demos/floating.rs`](src/demos/floating.rs): movable overlay windows over a canvas.
+- **Three-pane workspace** — [`src/demos/three_pane.rs`](src/demos/three_pane.rs): explorer, editor, and inspector panes.
+- **Editor workspace** — [`src/demos/editor_workspace.rs`](src/demos/editor_workspace.rs): file explorer, editor surface, and collapsible terminal.
+- **Nav rail + breadcrumbs** — [`src/demos/nav_rail.rs`](src/demos/nav_rail.rs): compact vertical navigation with active breadcrumb context.
+- **Responsive layout** — [`src/demos/responsive.rs`](src/demos/responsive.rs): wide card grid that adapts to compact space.
+- **Accordion sections** — [`src/demos/accordion.rs`](src/demos/accordion.rs): exclusive collapsible groups and section navigation.
+- **Masonry / flow** — [`src/demos/masonry.rs`](src/demos/masonry.rs): variable-height cards balanced across columns.
+- **Settings page** — [`src/demos/settings.rs`](src/demos/settings.rs): navigation rail, grouped preferences, and search.
+- **Kanban board** — [`src/demos/kanban.rs`](src/demos/kanban.rs): horizontal columns, cards, and compact repeated surfaces.
+- **Timeline / activity** — [`src/demos/timeline.rs`](src/demos/timeline.rs): date groups, event markers, and a scrollable activity feed.
+- **Command center** — [`src/demos/command_center.rs`](src/demos/command_center.rs): dense operations screen with alerts and live events.
+- **Property inspector** — [`src/demos/inspector.rs`](src/demos/inspector.rs): selectable objects with editable or read-only properties.
+
+### Widgets
+
+- **Buttons & actions** — [`src/demos/buttons.rs`](src/demos/buttons.rs): button variants, menus, busy states, selectable groups, shortcuts.
+- **Popups & modals** — [`src/demos/popups.rs`](src/demos/popups.rs): tooltips, context menus, menu buttons, blocking dialogs.
+- **Command palette** — [`src/demos/command_palette.rs`](src/demos/command_palette.rs): keyboard-first searchable actions in a transient window.
+- **Grouped bulk selection** — [`src/demos/bulk_selection.rs`](src/demos/bulk_selection.rs): grouped checkboxes, select-all controls, and bulk actions.
+
+### Input
+
+- **Form & validation** — [`src/demos/forms.rs`](src/demos/forms.rs): `Grid` rows, validation messages, submit/reset state.
+- **Input widgets** — [`src/demos/inputs.rs`](src/demos/inputs.rs): sliders, drags, toggles, radio buttons, combo boxes, colors.
+- **Keyboard focus & shortcuts** — [`src/demos/keyboard_nav.rs`](src/demos/keyboard_nav.rs): arrow-key focus traversal, activation, and shortcut discoverability.
+
+### Data
+
+- **Data table** — [`src/demos/tables.rs`](src/demos/tables.rs): sortable and striped rows, resizable columns, selection, virtualisation.
+- **Diff / compare** — [`src/demos/diff_view.rs`](src/demos/diff_view.rs): unified and side-by-side source comparison with change highlighting.
+- **Tree / hierarchy** — [`src/demos/tree.rs`](src/demos/tree.rs): recursive `CollapsingHeader` nodes and filtered branches.
+- **Charts** — [`src/demos/plots.rs`](src/demos/plots.rs): a painter-based line and bar chart with hover feedback.
+- **Calendar / scheduler** — [`src/demos/calendar.rs`](src/demos/calendar.rs): month/week planning with selected-day state.
+
+### Feedback
+
+- **Progress & status** — [`src/demos/progress.rs`](src/demos/progress.rs): determinate/indeterminate progress, spinners, repaint timers.
+- **Feedback states** — [`src/demos/feedback_states.rs`](src/demos/feedback_states.rs): loading, empty, error, retry, success, and toast states.
 
 The launcher also provides:
 
@@ -37,6 +64,8 @@ The launcher also provides:
 - case-insensitive pattern search, with `/` as a search shortcut;
 - dark/light themes and a configurable accent color;
 - a status bar showing the pattern count and current selection.
+
+The per-file map in [`docs/demo-catalog.md`](docs/demo-catalog.md) mirrors this list and adds a "useful starting point for" column.
 
 ## Quick start
 
@@ -108,6 +137,19 @@ cargo fmt -- --check
 ```
 
 See [docs/testing.md](docs/testing.md) for coverage details and guidance for testing new patterns.
+
+## Screenshot mode
+
+Generate a full-screen screenshot of a specific template with the built-in capture mode:
+
+```bash
+mkdir -p screenshots
+EFRAME_SCREENSHOT_TO=screenshots/three-pane.png \
+  cargo run --features screenshots -- \
+  --demo "Three-pane workspace" --fullscreen
+```
+
+Use `cargo run -- --help` to see the available launch flags. The screenshot feature uses eframe's Glow renderer and is intended for visual documentation and README updates.
 
 ## License
 
