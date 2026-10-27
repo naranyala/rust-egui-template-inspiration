@@ -8,6 +8,7 @@
 //! 3. push `Box::new(my_pattern::MyPattern::default())` in [`all_demos`].
 
 pub mod accordion;
+pub mod accessibility_focus;
 pub mod bulk_selection;
 pub mod buttons;
 pub mod calendar;
@@ -39,6 +40,7 @@ pub mod settings;
 pub mod split;
 pub mod tables;
 pub mod tabs;
+pub mod theme_tokens;
 pub mod three_pane;
 pub mod timeline;
 pub mod tree;
@@ -131,6 +133,8 @@ pub fn all_demos() -> Vec<Box<dyn Demo>> {
         Box::<inspector::Inspector>::default(),
         Box::<feedback_states::FeedbackStates>::default(),
         Box::<calendar::Calendar>::default(),
+        Box::<theme_tokens::ThemeTokens>::default(),
+        Box::<accessibility_focus::AccessibilityFocus>::default(),
     ]
 }
 
@@ -142,7 +146,7 @@ mod tests {
     #[test]
     fn registry_has_unique_metadata_for_every_demo() {
         let demos = all_demos();
-        assert_eq!(demos.len(), 37);
+        assert_eq!(demos.len(), 39);
 
         let names: HashSet<_> = demos.iter().map(|demo| demo.name()).collect();
         assert_eq!(names.len(), demos.len(), "demo names must be unique");
@@ -182,6 +186,8 @@ mod tests {
             "Keyboard focus & shortcuts",
             "Unsaved changes",
             "Date, time & folder pickers",
+            "Theme tokens & focus",
+            "Accessibility & focus",
         ] {
             assert!(
                 names.contains(expected),

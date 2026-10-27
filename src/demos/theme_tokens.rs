@@ -13,7 +13,7 @@ impl Demo for ThemeTokens {
     }
 
     fn description(&self) -> &'static str {
-        "Color tokens, accent variants, and strong focus states for polished desktop UIs."
+        "Color tokens, accent variants, and high-contrast focus states for polished desktop UIs."
     }
 
     fn category(&self) -> Category {
@@ -28,9 +28,9 @@ impl Demo for ThemeTokens {
             _ => Color32::from_rgb(76, 130, 255),
         };
 
-        ui.heading("Theme tokens & focus geometry");
+        ui.heading("Theme tokens & focus states");
         ui.label(
-            "A consistent set of colors, clear secondary actions, and visible focus behavior helps accessibility and brand clarity.",
+            "Consistent colors, clear hierarchy, and visible focus outlines improve both brand polish and keyboard accessibility.",
         );
         ui.add_space(8.0);
 
@@ -76,6 +76,7 @@ impl Demo for ThemeTokens {
             ui.add_space(10.0);
             ui.label(RichText::new("Keyboard focus example").strong());
             ui.horizontal(|ui| {
+                ui.label("Project name");
                 ui.add(
                     egui::TextEdit::singleline(&mut self.draft)
                         .hint_text("Focus ring should remain obvious here")
@@ -84,7 +85,13 @@ impl Demo for ThemeTokens {
                 ui.add(egui::Button::new("Save").fill(accent));
             });
             ui.add_space(4.0);
-            ui.label(RichText::new("Use a visible stroke, clear contrast, and consistent spacing so keyboard users are never unsure where focus landed.").small().weak());
+            ui.label(
+                RichText::new(
+                    "Use a visible stroke, clear contrast, and consistent spacing so keyboard users are never unsure where focus landed.",
+                )
+                .small()
+                .weak(),
+            );
         });
     }
 }

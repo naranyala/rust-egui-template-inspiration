@@ -41,5 +41,7 @@ This page is a quick map from the gallery entries to the source files and the te
 | Property inspector | [`src/demos/inspector.rs`](../src/demos/inspector.rs) | Selectable objects and editable/read-only properties |
 | Feedback states | [`src/demos/feedback_states.rs`](../src/demos/feedback_states.rs) | Loading, empty, error, retry, skeleton, success, toast, and notification center |
 | Calendar / scheduler | [`src/demos/calendar.rs`](../src/demos/calendar.rs) | Month/week planning and selected-day state |
+| Theme tokens & focus | [`src/demos/theme_tokens.rs`](../src/demos/theme_tokens.rs) | Accent colors, palette blocks, and high-contrast focus-ready buttons |
+| Accessibility & focus | [`src/demos/accessibility_focus.rs`](../src/demos/accessibility_focus.rs) | Labels, keyboard cues, and strong focus relationships for assistive users |
 
 The examples are intentionally adjacent in the source tree. When adapting one, copy the smallest relevant section into your application and keep the demo's state model as a reference.
