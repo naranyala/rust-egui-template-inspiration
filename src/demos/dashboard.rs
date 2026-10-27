@@ -1,10 +1,5 @@
-//! Pattern: dashboard layout.
-//!
-//! A responsive collection of cards: a compact toolbar, KPI tiles, and a
-//! two-column content area. This is a useful starting point for monitoring,
-//! analytics, and admin screens.
-
 use super::{Category, Demo};
+use crate::shared::{empty_state, metric_card, status_row};
 use egui::{Align, Color32, Layout, RichText, Ui};
 
 #[derive(Default)]
@@ -40,32 +35,12 @@ impl Demo for Dashboard {
         ui.spacing_mut().item_spacing.x = gap;
         ui.horizontal_wrapped(|ui| {
             for (label, value, change, color) in [
-                (
-                    "Revenue",
-                    "$84.2k",
-                    "+12.4%",
-                    Color32::from_rgb(70, 180, 120),
-                ),
-                (
-                    "Active users",
-                    "12,480",
-                    "+8.1%",
-                    Color32::from_rgb(80, 150, 235),
-                ),
-                (
-                    "Conversion",
-                    "6.8%",
-                    "+1.2%",
-                    Color32::from_rgb(190, 145, 65),
-                ),
+                ("Revenue", "$84.2k", "+12.4%", Color32::from_rgb(70, 180, 120)),
+                ("Active users", "12,480", "+8.1%", Color32::from_rgb(80, 150, 235)),
+                ("Conversion", "6.8%", "+1.2%", Color32::from_rgb(190, 145, 65)),
                 ("Incidents", "3", "-42%", Color32::from_rgb(210, 90, 90)),
             ] {
-                egui::Frame::group(ui.style()).show(ui, |ui| {
-                    ui.set_min_width(if self.compact { 130.0 } else { 160.0 });
-                    ui.weak(label);
-                    ui.heading(value);
-                    ui.colored_label(color, change);
-                });
+                metric_card(ui, label, value, change, color, self.compact);
             }
         });
 
@@ -96,12 +71,7 @@ impl Demo for Dashboard {
                     ("Search", "Degraded"),
                     ("Billing", "Operational"),
                 ] {
-                    ui.horizontal(|ui| {
-                        ui.label(service);
-                        ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
-                            ui.weak(state);
-                        });
-                    });
+                    status_row(ui, service, state);
                 }
             });
         });

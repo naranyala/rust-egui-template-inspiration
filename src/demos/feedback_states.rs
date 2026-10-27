@@ -1,9 +1,5 @@
-//! Pattern: feedback and async states.
-//!
-//! A compact reference for loading, empty, error, retry, success, and toast
-//! states that every production desktop application eventually needs.
-
 use super::{Category, Demo};
+use crate::shared::empty_state;
 use egui::{Color32, RichText, Ui};
 use std::time::{Duration, Instant};
 
@@ -63,9 +59,7 @@ impl Demo for FeedbackStates {
                 });
             }
             1 => {
-                ui.heading("Nothing here yet");
-                ui.label("Create a record or adjust your filters to get started.");
-                let _ = ui.button("Create record");
+                empty_state(ui, "Nothing here yet", "Create a record or adjust your filters to get started.", Some("Create record"));
             }
             2 => {
                 ui.colored_label(ui.visuals().error_fg_color, "Could not load records");
