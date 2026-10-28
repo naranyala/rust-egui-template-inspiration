@@ -308,4 +308,3 @@ The highest-value patterns to add first are:
 ## Next action
 
 Start by implementing the app shell, the metadata model, and the first 10 highest-priority patterns, then move into advanced workspace and production patterns. Use the existing demo registry as the foundation, then layer on enterprise workflows like approval queues, access reviews, and incident consoles.
-

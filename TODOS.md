@@ -48,4 +48,3 @@ This page is a quick map from the gallery entries to the source files and the te
 | Accessibility & focus | [`src/demos/accessibility_focus.rs`](../src/demos/accessibility_focus.rs) | Labels, keyboard cues, and strong focus relationships for assistive users |
 
 The examples are intentionally adjacent in the source tree. When adapting one, copy the smallest relevant section into your application and keep the demo's state model as a reference.
-

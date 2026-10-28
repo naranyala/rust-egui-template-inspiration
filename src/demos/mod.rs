@@ -147,4 +147,3 @@ impl Demo for IncidentConsole {
         });
     }
 }
-
