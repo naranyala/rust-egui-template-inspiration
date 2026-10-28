@@ -1,47 +1,242 @@
-# Demo catalog
+//! The pattern catalogue.
+//!
+//! Every demo is a self-contained struct implementing [`Demo`]. The launcher
+//! (`app.rs`) only knows about the trait, so adding a new pattern is just:
+//!
+//! 1. create `src/demos/my_pattern.rs`,
+//! 2. add `pub mod my_pattern;` below,
+//! 3. push `Box::new(my_pattern::MyPattern::default())` in [`all_demos`].
 
-This page is a quick map from the gallery entries to the source files and the techniques they illustrate.
+pub mod accordion;
+pub mod accessibility_focus;
+pub mod access_control;
+pub mod approval_center;
+pub mod bulk_selection;
+pub mod buttons;
+pub mod calendar;
+pub mod canvas;
+pub mod command_center;
+pub mod command_palette;
+pub mod dashboard;
+pub mod diff_view;
+pub mod document_tabs;
+pub mod editor_workspace;
+pub mod feedback_states;
+pub mod floating;
+pub mod forms;
+pub mod grid;
+pub mod incident_console;
+pub mod inputs;
+pub mod inspector;
+pub mod kanban;
+pub mod keyboard_nav;
+pub mod masonry;
+pub mod master_detail;
+pub mod nav_rail;
+pub mod panels;
+pub mod pickers;
+pub mod plots;
+pub mod popups;
+pub mod progress;
+pub mod responsive;
+pub mod settings;
+pub mod split;
+pub mod tables;
+pub mod tabs;
+pub mod theme_tokens;
+pub mod three_pane;
+pub mod timeline;
+pub mod tree;
+pub mod unsaved_changes;
+pub mod wizard;
 
-| Demo | Source | Useful starting point for |
-| --- | --- | --- |
-| Panel layout | [`src/demos/panels.rs`](../src/demos/panels.rs) | Nested panels, columns, resizable regions, wrapping |
-| Dashboard | [`src/demos/dashboard.rs`](../src/demos/dashboard.rs) | KPI cards, responsive wrapping, summary panels |
-| Master–detail | [`src/demos/master_detail.rs`](../src/demos/master_detail.rs) | Searchable list, selected record, detail pane |
-| Wizard / stepper | [`src/demos/wizard.rs`](../src/demos/wizard.rs) | Guided workflows, validation, progress navigation |
-| Grid layout | [`src/demos/grid.rs`](../src/demos/grid.rs) | Aligned rows and columns, nested grids |
-| Split panes | [`src/demos/split.rs`](../src/demos/split.rs) | Resizable horizontal and vertical work areas |
-| Floating windows | [`src/demos/floating.rs`](../src/demos/floating.rs) | Movable overlay windows (IDE-style) over a canvas |
-| Tabs | [`src/demos/tabs.rs`](../src/demos/tabs.rs) | Tab navigation with selectable labels |
-| Settings page | [`src/demos/settings.rs`](../src/demos/settings.rs) | Navigation rail, grouped preferences, search |
-| Kanban board | [`src/demos/kanban.rs`](../src/demos/kanban.rs) | Horizontal columns, cards, compact repeated surfaces |
-| Timeline / activity | [`src/demos/timeline.rs`](../src/demos/timeline.rs) | Date groups, event markers, scrollable activity |
-| Command center | [`src/demos/command_center.rs`](../src/demos/command_center.rs) | Dense operations screen, alerts, metrics, live events |
-| Three-pane workspace | [`src/demos/three_pane.rs`](../src/demos/three_pane.rs) | Explorer, editor, and inspector panes |
-| Editor workspace | [`src/demos/editor_workspace.rs`](../src/demos/editor_workspace.rs) | File explorer, editor surface, and collapsible terminal |
-| Nav rail + breadcrumbs | [`src/demos/nav_rail.rs`](../src/demos/nav_rail.rs) | Compact vertical navigation and contextual breadcrumbs |
-| Document tabs | [`src/demos/document_tabs.rs`](../src/demos/document_tabs.rs) | Closable tabs, dirty indicators, new documents |
-| Responsive layout | [`src/demos/responsive.rs`](../src/demos/responsive.rs) | Wide/compact composition based on available width |
-| Accordion sections | [`src/demos/accordion.rs`](../src/demos/accordion.rs) | Exclusive collapsible groups and section navigation |
-| Masonry / flow | [`src/demos/masonry.rs`](../src/demos/masonry.rs) | Variable-height cards balanced across columns |
-| Form & validation | [`src/demos/forms.rs`](../src/demos/forms.rs) | Label/control grids, inline errors, submit/reset flows |
-| Input widgets | [`src/demos/inputs.rs`](../src/demos/inputs.rs) | Sliders, drags, toggles, radio groups, combo boxes, colors |
-| Keyboard focus & shortcuts | [`src/demos/keyboard_nav.rs`](../src/demos/keyboard_nav.rs) | Arrow-key focus traversal and shortcut discoverability |
-| Unsaved changes | [`src/demos/unsaved_changes.rs`](../src/demos/unsaved_changes.rs) | Dirty tracking, guarded navigation, and save/discard confirmation |
-| Date, time & folder pickers | [`src/demos/pickers.rs`](../src/demos/pickers.rs) | Segmented date/time fields and a filesystem folder browser |
-| Buttons & actions | [`src/demos/buttons.rs`](../src/demos/buttons.rs) | Button styling, menus, disabled state, keyboard hints |
-| Grouped bulk selection | [`src/demos/bulk_selection.rs`](../src/demos/bulk_selection.rs) | Group selection, select-all controls, and bulk actions |
-| Data table | [`src/demos/tables.rs`](../src/demos/tables.rs) | `egui_extras::TableBuilder`, sorting, selection, pagination, virtualised rows |
-| Diff / compare | [`src/demos/diff_view.rs`](../src/demos/diff_view.rs) | Unified and side-by-side source comparison |
-| Tree / hierarchy | [`src/demos/tree.rs`](../src/demos/tree.rs) | Recursive nodes, disclosure headers, filtered branches |
-| Popups & modals | [`src/demos/popups.rs`](../src/demos/popups.rs) | Tooltips, context menus, menu buttons, modal dialogs |
-| Charts | [`src/demos/plots.rs`](../src/demos/plots.rs) | Painter-based axes, lines, bars, hover crosshairs |
-| Canvas / drawing | [`src/demos/canvas.rs`](../src/demos/canvas.rs) | Allocated drawing surfaces, pointer input, undo |
-| Progress & status | [`src/demos/progress.rs`](../src/demos/progress.rs) | Progress bars, spinners, simulated work, repaint scheduling |
-| Command palette | [`src/demos/command_palette.rs`](../src/demos/command_palette.rs) | Keyboard-first searchable actions and shortcuts |
-| Property inspector | [`src/demos/inspector.rs`](../src/demos/inspector.rs) | Selectable objects and editable/read-only properties |
-| Feedback states | [`src/demos/feedback_states.rs`](../src/demos/feedback_states.rs) | Loading, empty, error, retry, skeleton, success, toast, and notification center |
-| Calendar / scheduler | [`src/demos/calendar.rs`](../src/demos/calendar.rs) | Month/week planning and selected-day state |
-| Theme tokens & focus | [`src/demos/theme_tokens.rs`](../src/demos/theme_tokens.rs) | Accent colors, palette blocks, and high-contrast focus-ready buttons |
-| Accessibility & focus | [`src/demos/accessibility_focus.rs`](../src/demos/accessibility_focus.rs) | Labels, keyboard cues, and strong focus relationships for assistive users |
+/// Grouping used to organise the launcher's sidebar.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Category {
+    Layout,
+    Widgets,
+    Input,
+    Data,
+    Feedback,
+}
 
-The examples are intentionally adjacent in the source tree. When adapting one, copy the smallest relevant section into your application and keep the demo's state model as a reference.
+impl Category {
+    /// Order in which categories appear in the sidebar.
+    pub const ALL: [Category; 5] = [
+        Category::Layout,
+        Category::Widgets,
+        Category::Input,
+        Category::Data,
+        Category::Feedback,
+    ];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            Category::Layout => "Layout",
+            Category::Widgets => "Widgets",
+            Category::Input => "Input",
+            Category::Data => "Data",
+            Category::Feedback => "Feedback",
+        }
+    }
+}
+
+/// A single UI pattern shown by the launcher.
+pub trait Demo {
+    /// Short title shown in the sidebar.
+    fn name(&self) -> &'static str;
+
+    /// One-or-two-line blurb shown above the demo.
+    fn description(&self) -> &'static str;
+
+    fn category(&self) -> Category;
+
+    /// Draw the pattern. `ui` is the central area of the launcher; demos that
+    /// need bounded space (panels, painters) get it from that `ui`.
+    fn ui(&mut self, ui: &mut egui::Ui);
+}
+
+/// Every demo the launcher knows about, in sidebar order within a category.
+pub fn all_demos() -> Vec<Box<dyn Demo>> {
+    vec![
+        Box::<panels::Panels>::default(),
+        Box::<dashboard::Dashboard>::default(),
+        Box::<three_pane::ThreePane>::default(),
+        Box::<nav_rail::NavRail>::default(),
+        Box::<document_tabs::DocumentTabs>::default(),
+        Box::<editor_workspace::EditorWorkspace>::default(),
+        Box::<responsive::Responsive>::default(),
+        Box::<master_detail::MasterDetail>::default(),
+        Box::<wizard::Wizard>::default(),
+        Box::<settings::Settings>::default(),
+        Box::<kanban::Kanban>::default(),
+        Box::<timeline::Timeline>::default(),
+        Box::<command_center::CommandCenter>::default(),
+        Box::<approval_center::ApprovalCenter>::default(),
+        Box::<access_control::AccessControl>::default(),
+        Box::<incident_console::IncidentConsole>::default(),
+        Box::<forms::Forms>::default(),
+        Box::<grid::Grids>::default(),
+        Box::<bulk_selection::BulkSelection>::default(),
+        Box::<inputs::Inputs>::default(),
+        Box::<keyboard_nav::KeyboardNav>::default(),
+        Box::<pickers::Pickers>::default(),
+        Box::<buttons::Buttons>::default(),
+        Box::<tables::Tables>::default(),
+        Box::<diff_view::DiffView>::default(),
+        Box::<tree::Tree>::default(),
+        Box::<popups::Popups>::default(),
+        Box::<split::Splits>::default(),
+        Box::<tabs::Tabs>::default(),
+        Box::<unsaved_changes::UnsavedChanges>::default(),
+        Box::<floating::Floating>::default(),
+        Box::<accordion::Accordion>::default(),
+        Box::<masonry::Masonry>::default(),
+        Box::<plots::Plots>::default(),
+        Box::<canvas::Canvas>::default(),
+        Box::<progress::Progress>::default(),
+        Box::<command_palette::CommandPalette>::default(),
+        Box::<inspector::Inspector>::default(),
+        Box::<feedback_states::FeedbackStates>::default(),
+        Box::<calendar::Calendar>::default(),
+        Box::<theme_tokens::ThemeTokens>::default(),
+        Box::<accessibility_focus::AccessibilityFocus>::default(),
+    ]
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashSet;
+
+    #[test]
+    fn registry_has_unique_metadata_for_every_demo() {
+        let demos = all_demos();
+        assert_eq!(demos.len(), 42);
+
+        let names: HashSet<_> = demos.iter().map(|demo| demo.name()).collect();
+        assert_eq!(names.len(), demos.len(), "demo names must be unique");
+        assert!(
+            demos
+                .iter()
+                .all(|demo| !demo.description().trim().is_empty())
+        );
+        assert!(
+            Category::ALL
+                .iter()
+                .all(|category| { demos.iter().any(|demo| demo.category() == *category) })
+        );
+
+        for expected in [
+            "Dashboard",
+            "Master–detail",
+            "Wizard / stepper",
+            "Settings page",
+            "Kanban board",
+            "Timeline / activity",
+            "Command center",
+            "Approval center",
+            "Access control matrix",
+            "Incident console",
+            "Floating windows",
+            "Masonry / flow",
+            "Accordion sections",
+            "Three-pane workspace",
+            "Document tabs",
+            "Responsive layout",
+            "Command palette",
+            "Property inspector",
+            "Feedback states",
+            "Calendar / scheduler",
+            "Editor workspace",
+            "Nav rail + breadcrumbs",
+            "Grouped bulk selection",
+            "Diff / compare",
+            "Keyboard focus & shortcuts",
+            "Unsaved changes",
+            "Date, time & folder pickers",
+            "Theme tokens & focus",
+            "Accessibility & focus",
+        ] {
+            assert!(
+                names.contains(expected),
+                "missing registered demo: {expected}"
+            );
+        }
+    }
+
+    #[test]
+    fn docs_list_every_registered_demo() {
+        let manifest = env!("CARGO_MANIFEST_DIR");
+        let readme =
+            std::fs::read_to_string(format!("{manifest}/README.md")).expect("README.md readable");
+        let catalog = std::fs::read_to_string(format!("{manifest}/docs/demo-catalog.md"))
+            .expect("demo-catalog.md readable");
+
+        for demo in all_demos() {
+            let name = demo.name();
+            assert!(
+                readme.contains(name),
+                "README.md is missing registered demo: {name}"
+            );
+            assert!(
+                catalog.contains(name),
+                "docs/demo-catalog.md is missing registered demo: {name}"
+            );
+        }
+    }
+
+    #[test]
+    fn every_demo_can_render_one_frame() {
+        let ctx = egui::Context::default();
+        let mut demos = all_demos();
+
+        for demo in &mut demos {
+            let mut output = ctx.run_ui(egui::RawInput::default(), |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| demo.ui(ui));
+            });
+            output.textures_delta.clear();
+        }
+    }
+}
+

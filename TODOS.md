@@ -1,308 +1,51 @@
-# Template gallery roadmap
+# Demo catalog
 
-This file tracks the implementation and quality work for the egui inspiration gallery. Keep it updated whenever a template is added, substantially improved, or deliberately deferred.
+This page is a quick map from the gallery entries to the source files and the techniques they illustrate.
 
-## Status legend
+| Demo | Source | Useful starting point for |
+| --- | --- | --- |
+| Panel layout | [`src/demos/panels.rs`](../src/demos/panels.rs) | Nested panels, columns, resizable regions, wrapping |
+| Dashboard | [`src/demos/dashboard.rs`](../src/demos/dashboard.rs) | KPI cards, responsive wrapping, summary panels |
+| Master–detail | [`src/demos/master_detail.rs`](../src/demos/master_detail.rs) | Searchable list, selected record, detail pane |
+| Wizard / stepper | [`src/demos/wizard.rs`](../src/demos/wizard.rs) | Guided workflows, validation, progress navigation |
+| Grid layout | [`src/demos/grid.rs`](../src/demos/grid.rs) | Aligned rows and columns, nested grids |
+| Split panes | [`src/demos/split.rs`](../src/demos/split.rs) | Resizable horizontal and vertical work areas |
+| Floating windows | [`src/demos/floating.rs`](../src/demos/floating.rs) | Movable overlay windows (IDE-style) over a canvas |
+| Tabs | [`src/demos/tabs.rs`](../src/demos/tabs.rs) | Tab navigation with selectable labels |
+| Settings page | [`src/demos/settings.rs`](../src/demos/settings.rs) | Navigation rail, grouped preferences, search |
+| Kanban board | [`src/demos/kanban.rs`](../src/demos/kanban.rs) | Horizontal columns, cards, compact repeated surfaces |
+| Timeline / activity | [`src/demos/timeline.rs`](../src/demos/timeline.rs) | Date groups, event markers, scrollable activity |
+| Command center | [`src/demos/command_center.rs`](../src/demos/command_center.rs) | Dense operations screen, alerts, metrics, live events |
+| Approval center | [`src/demos/approval_center.rs`](../src/demos/approval_center.rs) | Approval queues, risk metadata, decision workflows, enterprise review flows |
+| Access control matrix | [`src/demos/access_control.rs`](../src/demos/access_control.rs) | Role-based access reviews, user/resource matrix, permission checks |
+| Incident console | [`src/demos/incident_console.rs`](../src/demos/incident_console.rs) | Incident triage, alerts, ownership, escalation, timeline tracking |
+| Three-pane workspace | [`src/demos/three_pane.rs`](../src/demos/three_pane.rs) | Explorer, editor, and inspector panes |
+| Editor workspace | [`src/demos/editor_workspace.rs`](../src/demos/editor_workspace.rs) | File explorer, editor surface, and collapsible terminal |
+| Nav rail + breadcrumbs | [`src/demos/nav_rail.rs`](../src/demos/nav_rail.rs) | Compact vertical navigation and contextual breadcrumbs |
+| Document tabs | [`src/demos/document_tabs.rs`](../src/demos/document_tabs.rs) | Closable tabs, dirty indicators, new documents |
+| Responsive layout | [`src/demos/responsive.rs`](../src/demos/responsive.rs) | Wide/compact composition based on available width |
+| Accordion sections | [`src/demos/accordion.rs`](../src/demos/accordion.rs) | Exclusive collapsible groups and section navigation |
+| Masonry / flow | [`src/demos/masonry.rs`](../src/demos/masonry.rs) | Variable-height cards balanced across columns |
+| Form & validation | [`src/demos/forms.rs`](../src/demos/forms.rs) | Label/control grids, inline errors, submit/reset flows |
+| Input widgets | [`src/demos/inputs.rs`](../src/demos/inputs.rs) | Sliders, drags, toggles, radio groups, combo boxes, colors |
+| Keyboard focus & shortcuts | [`src/demos/keyboard_nav.rs`](../src/demos/keyboard_nav.rs) | Arrow-key focus traversal and shortcut discoverability |
+| Unsaved changes | [`src/demos/unsaved_changes.rs`](../src/demos/unsaved_changes.rs) | Dirty tracking, guarded navigation, and save/discard confirmation |
+| Date, time & folder pickers | [`src/demos/pickers.rs`](../src/demos/pickers.rs) | Segmented date/time fields and a filesystem folder browser |
+| Buttons & actions | [`src/demos/buttons.rs`](../src/demos/buttons.rs) | Button styling, menus, disabled state, keyboard hints |
+| Grouped bulk selection | [`src/demos/bulk_selection.rs`](../src/demos/bulk_selection.rs) | Group selection, select-all controls, and bulk actions |
+| Data table | [`src/demos/tables.rs`](../src/demos/tables.rs) | `egui_extras::TableBuilder`, sorting, selection, pagination, virtualised rows |
+| Diff / compare | [`src/demos/diff_view.rs`](../src/demos/diff_view.rs) | Unified and side-by-side source comparison |
+| Tree / hierarchy | [`src/demos/tree.rs`](../src/demos/tree.rs) | Recursive nodes, disclosure headers, filtered branches |
+| Popups & modals | [`src/demos/popups.rs`](../src/demos/popups.rs) | Tooltips, context menus, menu buttons, modal dialogs |
+| Charts | [`src/demos/plots.rs`](../src/demos/plots.rs) | Painter-based axes, lines, bars, hover crosshairs |
+| Canvas / drawing | [`src/demos/canvas.rs`](../src/demos/canvas.rs) | Allocated drawing surfaces, pointer input, undo |
+| Progress & status | [`src/demos/progress.rs`](../src/demos/progress.rs) | Progress bars, spinners, simulated work, repaint scheduling |
+| Command palette | [`src/demos/command_palette.rs`](../src/demos/command_palette.rs) | Keyboard-first searchable actions and shortcuts |
+| Property inspector | [`src/demos/inspector.rs`](../src/demos/inspector.rs) | Selectable objects and editable/read-only properties |
+| Feedback states | [`src/demos/feedback_states.rs`](../src/demos/feedback_states.rs) | Loading, empty, error, retry, skeleton, success, toast, and notification center |
+| Calendar / scheduler | [`src/demos/calendar.rs`](../src/demos/calendar.rs) | Month/week planning and selected-day state |
+| Theme tokens & focus | [`src/demos/theme_tokens.rs`](../src/demos/theme_tokens.rs) | Accent colors, palette blocks, and high-contrast focus-ready buttons |
+| Accessibility & focus | [`src/demos/accessibility_focus.rs`](../src/demos/accessibility_focus.rs) | Labels, keyboard cues, and strong focus relationships for assistive users |
 
-- `[ ]` planned
-- `[-]` in progress or partially covered
-- `[x]` implemented and validated
+The examples are intentionally adjacent in the source tree. When adapting one, copy the smallest relevant section into your application and keep the demo's state model as a reference.
 
-## Current foundation
-
-- [x] 40 registered demos are exposed through `src/demos/mod.rs`.
-- [x] Every demo is listed in `README.md` and `docs/demo-catalog.md`.
-- [x] Registry metadata checks enforce unique names and non-empty descriptions.
-- [x] Headless smoke test renders every registered demo for one frame.
-- [x] Core tests cover form validation, table sorting, tree filtering, and wizard navigation.
-- [x] Fullscreen presentation mode supports `--demo` and `--fullscreen`.
-- [x] Built-in Glow screenshot mode supports `EFRAME_SCREENSHOT_TO`.
-
-## Core product goals
-
-The project should become a comprehensive egui pattern gallery that covers:
-
-- desktop UI foundations and app shells
-- common layout primitives from basic to advanced
-- realistic workflow patterns used in production apps
-- feedback and state handling
-- accessibility and visual polish
-- copy-paste-friendly examples with clear metadata and searchability
-
-## High-priority roadmap
-
-### Phase 1: Foundation and catalog experience
-
-- [ ] Finalize the gallery metadata model: title, category, difficulty, widgets, description, tags, use case
-- [ ] Add a consistent pattern card layout for browsing examples
-- [ ] Add search-by-keyword and tag filtering
-- [ ] Add category and difficulty filters
-- [ ] Add copy-to-clipboard for example code
-- [ ] Add a favorites / starred examples list
-- [ ] Add a recent examples view
-- [ ] Add theme-aware preview rendering for dark and light modes
-- [ ] Add a simple full-screen demo preview mode for selected examples
-- [ ] Add a docs page describing how to add a pattern and maintain metadata
-
-### Phase 2: Core layout patterns
-
-- [ ] Centered single-column form layout
-- [ ] Top bar + content panel shell
-- [ ] Sidebar navigation + main content area
-- [ ] Three-panel layout (nav, list, detail)
-- [ ] Split-pane layout with resizable areas
-- [ ] Scrollable content sections and long-form panels
-- [ ] Sticky header and sticky footer patterns
-- [ ] Grid of cards and tiles
-- [ ] Sectioned layouts with headings and grouping
-- [ ] Dense and spacious layout variants
-- [ ] Responsive narrow-width adaptions
-
-### Phase 3: Form and input patterns
-
-- [ ] Basic form with labels and validation
-- [ ] Inline validation states
-- [ ] Two-column settings form
-- [ ] Wizard / multi-step form
-- [ ] Search + filter form with chips and facets
-- [ ] Input groups with label, helper text, and action button
-- [ ] Conditional fields and advanced settings disclosure
-- [ ] Toggle and description groups
-- [ ] Compact form density variant
-- [ ] Data entry patterns for profile, contact, and settings flows
-- [ ] Multi-field composition with grouped sections
-
-### Phase 4: Widget and composition patterns
-
-- [ ] ComboBox + RadioButton + Checkbox combinations
-- [ ] Slider and DragValue settings blocks
-- [ ] Segmented controls and buttons groups
-- [ ] Tabs and sub-navigation examples
-- [ ] Selection cards and option pickers
-- [ ] Progress bars and progress states
-- [ ] Status badges and pills
-- [ ] Panels with action buttons and utility controls
-- [ ] Empty states with clear next actions
-- [ ] Inline help, labels, and hint-text patterns
-
-### Phase 5: Data presentation patterns
-
-- [ ] Searchable list + selection view
-- [ ] Detail pane beside a list
-- [ ] Simple table view
-- [ ] Sortable table with controls
-- [ ] Filtered table patterns
-- [ ] Data cards / metrics cards
-- [ ] Log viewer with status colors
-- [ ] Timeline or event stream layout
-- [ ] Tree view and expandable file-tree examples
-- [ ] Filter-builder and search-builder patterns
-- [ ] Pagination and loading/empty/error states in data views
-
-### Phase 6: Navigation and desktop app shells
-
-- [ ] Dashboard shell
-- [ ] Workspace shell
-- [ ] Tabbed document layout
-- [ ] Folder / project navigation layout
-- [ ] Breadcrumb navigation
-- [ ] Drawer / side panel overlay
-- [ ] Multi-level nested navigation
-- [ ] Contextual action menus
-- [ ] Command palette pattern
-- [ ] Quick actions toolbar
-- [ ] Vertical navigation rail + content pane variant
-
-### Phase 7: Feedback and state patterns
-
-- [ ] Loading skeleton and spinner states
-- [ ] Error panels and retry flows
-- [ ] Success and confirmation banners
-- [ ] Warning and caution patterns
-- [ ] Toast / transient notification stack
-- [ ] Empty state screens
-- [ ] Disabled/unavailable states
-- [ ] Busy states inside sections
-- [ ] Save/apply handling patterns
-- [ ] Unsaved changes confirmation flows
-- [ ] Notification center examples
-
-### Phase 8: Advanced desktop UI patterns
-
-- [ ] Resizable split-pane workspaces
-- [ ] Docking-style workspace mockup
-- [ ] Multi-column editor layout
-- [ ] Kanban board layout
-- [ ] Data explorer / inspector panel
-- [ ] Inbox-like layout with list + preview
-- [ ] CRM / record-detail page layout
-- [ ] IDE-like file tree + editor + preview
-- [ ] Complex nested settings workspace
-- [ ] File explorer + editor + terminal workspace variant
-- [ ] Property-inspector and metadata editing patterns
-
-### Phase 9: Visual design and polish
-
-- [ ] Rounded cards and panels
-- [ ] Depth and shadow patterns
-- [ ] Accent-color callouts and highlight states
-- [ ] Compact UI density variants
-- [ ] Spacious UI density variants
-- [ ] Visual groupings with separators and spacing rhythm
-- [ ] Status color conventions
-- [ ] Typography emphasis examples
-- [ ] Theme-aware surfaces and controls
-- [ ] Polished spacing and alignment reference examples
-
-### Phase 10: Accessibility and UX quality
-
-- [ ] Focus-visible styling for interactive elements
-- [ ] Keyboard-friendly layouts and navigation
-- [ ] Contrast examples and readable states
-- [ ] Clear labeling and helper-text examples
-- [ ] Large hit target patterns
-- [ ] Error messaging that is readable and actionable
-- [ ] Reduced-motion / calmer interaction patterns
-- [ ] Patterns usable in both dense and roomy layouts
-- [ ] Accessible modal and dialog patterns
-- [ ] RTL / i18n and locale-formatting example
-- [ ] Design-token / theme customization template
-
-## Next implementation batch
-
-- [x] Add a command palette / quick-open template.
-- [x] Add a property inspector template for editable object metadata.
-- [x] Add a feedback-state template: loading, empty, error, retry, and toast states.
-- [x] Add a calendar/scheduler template with day and week views.
-- [x] Add drag-and-drop/reorderable list interactions.
-- [x] Add a file explorer + editor + terminal workspace variant.
-- [x] Add an enterprise approval-center workflow template.
-
-## Interaction and production patterns
-
-- [x] Add vertical navigation rail and breadcrumb variants.
-- [ ] Add tab overflow, tab context menus, and dirty-tab close confirmation.
-- [x] Add grouped lists and bulk-selection actions.
-- [ ] Add tree-table and filter-builder data views.
-- [-] Add pagination and explicit loading/empty/error states to data views (pagination and shared feedback states are covered; table-specific async data is pending).
-- [x] Add property inspector read-only/edit modes.
-- [x] Add date/time and file/folder picker form variants.
-- [x] Add unsaved-changes confirmation and discard flows.
-- [x] Add notification center and toast stack.
-- [x] Add skeleton loading and offline/retry states.
-- [x] Add diff/compare viewer.
-- [x] Add keyboard focus-order and shortcut demonstrations.
-
-## Web-parity patterns (framework gap analysis)
-
-Patterns modern web UI frameworks provide natively and our gallery should demonstrate how to approximate without first-class support:
-
-- [ ] Add a design-token / theme-customization template (colors-as-patterns, accent scoping).
-- [ ] Add a flexbox-style grow/shrink manual layout template.
-- [ ] Add an animation and easing template (manual lerp + `request_repaint_after`).
-- [ ] Add an RTL / i18n text-direction and locale-formatting template.
-- [ ] Add an accessibility labeling and focus-ring styling template.
-
-## Quality and automation
-
-- [-] Add interaction tests for click, keyboard, and state transitions (headless state tests are covered; real pointer replay is pending).
-- [x] Add test coverage for screenshot CLI argument parsing.
-- [ ] Add visual screenshot fixtures for a small representative set of layouts.
-- [x] Add a documentation consistency check for registry, README, and catalog entries.
-- [ ] Add screenshot examples to README once a desktop compositor is available.
-- [ ] Add platform notes for native X11, Wayland, Windows, and macOS behavior.
-- [ ] Add proper MIT and Apache-2.0 license files before distribution.
-
-## Completed quality fixes
-
-- [x] Make floating-window IDs stable and preserve floating search/tool state.
-- [x] Preserve grid, settings, master-detail, Kanban, and command-center state.
-- [x] Correct progress elapsed-time reporting.
-- [x] Make accordion sections mutually exclusive.
-- [x] Add responsive, three-pane, document-tab, accordion, and masonry variants.
-- [x] Keep `cargo test`, Clippy with warnings denied, and rustfmt clean.
-- [x] Add paginated data-table controls for large result sets.
-- [x] Add a shared launch-option parser with unit coverage.
-- [x] Add an enterprise approval workflow queue and decision panel.
-
-## Recommended priority order
-
-The highest-value patterns to add first are:
-
-1. Sidebar + main content + detail pane
-2. Split-pane workspace layout
-3. Searchable list + detail view
-4. Form with validation and advanced settings
-5. Dashboard card layout
-6. Data table with actions and filters
-7. Empty/loading/error states
-8. Wizard / stepper flow
-9. Resizable multi-panel interface
-10. IDE-like shell
-
-## Suggested pattern taxonomy
-
-- Layout fundamentals
-- Form patterns
-- Navigation patterns
-- Data display patterns
-- Feedback and status patterns
-- Dashboard patterns
-- Workspace patterns
-- Desktop productivity patterns
-- Advanced composition patterns
-- Accessibility and polish patterns
-
-## Milestone checklist
-
-### Milestone 1: Single pattern viewer
-
-- [ ] Basic app shell
-- [ ] A few examples loaded into gallery
-- [ ] Search and selection support
-- [ ] Copy button works
-
-### Milestone 2: Pattern catalog
-
-- [ ] 10+ examples across categories
-- [ ] Filters and tags
-- [ ] Metadata and notes
-
-### Milestone 3: Breadth coverage
-
-- [ ] 30+ patterns
-- [ ] Core desktop app categories covered
-- [ ] Advanced dashboard and workspace layouts included
-
-### Milestone 4: Comprehensive reference
-
-- [ ] 50+ patterns across all major categories
-- [ ] Accessibility and polish pass complete
-- [ ] Docs and contributor guide complete
-
-## Repository structure direction
-
-- [ ] src/
-  - [ ] app.rs
-  - [ ] gallery.rs
-  - [ ] patterns/
-    - [ ] layout.rs
-    - [ ] forms.rs
-    - [ ] data.rs
-    - [ ] navigation.rs
-    - [ ] advanced.rs
-    - [ ] feedback.rs
-  - [ ] models.rs
-  - [ ] theme.rs
-  - [ ] search.rs
-  - [ ] clipboard.rs
-- [ ] examples/
-  - [ ] README.md
-- [ ] docs/
-  - [ ] contributing.md
-- [ ] TODOS.md
-- [ ] README.md
-
-## Next action
-
-Start by implementing the app shell, the metadata model, and the first 10 highest-priority patterns, then move into advanced workspace and production patterns. Use the existing demo registry as the foundation, then layer on enterprise workflows like approval queues, operations consoles, and governance tools.

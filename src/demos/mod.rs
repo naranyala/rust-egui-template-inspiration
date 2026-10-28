@@ -1,232 +1,150 @@
-//! The pattern catalogue.
-//!
-//! Every demo is a self-contained struct implementing [`Demo`]. The launcher
-//! (`app.rs`) only knows about the trait, so adding a new pattern is just:
-//!
-//! 1. create `src/demos/my_pattern.rs`,
-//! 2. add `pub mod my_pattern;` below,
-//! 3. push `Box::new(my_pattern::MyPattern::default())` in [`all_demos`].
+use super::{Category, Demo};
+use egui::{Align, Color32, Layout, RichText, Ui};
 
-pub mod accordion;
-pub mod accessibility_focus;
-pub mod bulk_selection;
-pub mod buttons;
-pub mod calendar;
-pub mod canvas;
-pub mod command_center;
-pub mod command_palette;
-pub mod dashboard;
-pub mod diff_view;
-pub mod document_tabs;
-pub mod editor_workspace;
-pub mod feedback_states;
-pub mod floating;
-pub mod forms;
-pub mod grid;
-pub mod inputs;
-pub mod inspector;
-pub mod kanban;
-pub mod keyboard_nav;
-pub mod masonry;
-pub mod master_detail;
-pub mod nav_rail;
-pub mod panels;
-pub mod pickers;
-pub mod plots;
-pub mod popups;
-pub mod progress;
-pub mod responsive;
-pub mod settings;
-pub mod split;
-pub mod tables;
-pub mod tabs;
-pub mod theme_tokens;
-pub mod three_pane;
-pub mod timeline;
-pub mod tree;
-pub mod unsaved_changes;
-pub mod wizard;
-
-/// Grouping used to organise the launcher's sidebar.
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub enum Category {
-    Layout,
-    Widgets,
-    Input,
-    Data,
-    Feedback,
+#[derive(Default)]
+pub struct IncidentConsole {
+    selected: usize,
 }
 
-impl Category {
-    /// Order in which categories appear in the sidebar.
-    pub const ALL: [Category; 5] = [
-        Category::Layout,
-        Category::Widgets,
-        Category::Input,
-        Category::Data,
-        Category::Feedback,
-    ];
-
-    pub fn label(self) -> &'static str {
-        match self {
-            Category::Layout => "Layout",
-            Category::Widgets => "Widgets",
-            Category::Input => "Input",
-            Category::Data => "Data",
-            Category::Feedback => "Feedback",
-        }
-    }
-}
-
-/// A single UI pattern shown by the launcher.
-pub trait Demo {
-    /// Short title shown in the sidebar.
-    fn name(&self) -> &'static str;
-
-    /// One-or-two-line blurb shown above the demo.
-    fn description(&self) -> &'static str;
-
-    fn category(&self) -> Category;
-
-    /// Draw the pattern. `ui` is the central area of the launcher; demos that
-    /// need bounded space (panels, painters) get it from that `ui`.
-    fn ui(&mut self, ui: &mut egui::Ui);
-}
-
-/// Every demo the launcher knows about, in sidebar order within a category.
-pub fn all_demos() -> Vec<Box<dyn Demo>> {
-    vec![
-        Box::<panels::Panels>::default(),
-        Box::<dashboard::Dashboard>::default(),
-        Box::<three_pane::ThreePane>::default(),
-        Box::<nav_rail::NavRail>::default(),
-        Box::<document_tabs::DocumentTabs>::default(),
-        Box::<editor_workspace::EditorWorkspace>::default(),
-        Box::<responsive::Responsive>::default(),
-        Box::<master_detail::MasterDetail>::default(),
-        Box::<wizard::Wizard>::default(),
-        Box::<settings::Settings>::default(),
-        Box::<kanban::Kanban>::default(),
-        Box::<timeline::Timeline>::default(),
-        Box::<command_center::CommandCenter>::default(),
-        Box::<forms::Forms>::default(),
-        Box::<grid::Grids>::default(),
-        Box::<bulk_selection::BulkSelection>::default(),
-        Box::<inputs::Inputs>::default(),
-        Box::<keyboard_nav::KeyboardNav>::default(),
-        Box::<pickers::Pickers>::default(),
-        Box::<buttons::Buttons>::default(),
-        Box::<tables::Tables>::default(),
-        Box::<diff_view::DiffView>::default(),
-        Box::<tree::Tree>::default(),
-        Box::<popups::Popups>::default(),
-        Box::<split::Splits>::default(),
-        Box::<tabs::Tabs>::default(),
-        Box::<unsaved_changes::UnsavedChanges>::default(),
-        Box::<floating::Floating>::default(),
-        Box::<accordion::Accordion>::default(),
-        Box::<masonry::Masonry>::default(),
-        Box::<plots::Plots>::default(),
-        Box::<canvas::Canvas>::default(),
-        Box::<progress::Progress>::default(),
-        Box::<command_palette::CommandPalette>::default(),
-        Box::<inspector::Inspector>::default(),
-        Box::<feedback_states::FeedbackStates>::default(),
-        Box::<calendar::Calendar>::default(),
-        Box::<theme_tokens::ThemeTokens>::default(),
-        Box::<accessibility_focus::AccessibilityFocus>::default(),
-    ]
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::collections::HashSet;
-
-    #[test]
-    fn registry_has_unique_metadata_for_every_demo() {
-        let demos = all_demos();
-        assert_eq!(demos.len(), 39);
-
-        let names: HashSet<_> = demos.iter().map(|demo| demo.name()).collect();
-        assert_eq!(names.len(), demos.len(), "demo names must be unique");
-        assert!(
-            demos
-                .iter()
-                .all(|demo| !demo.description().trim().is_empty())
-        );
-        assert!(
-            Category::ALL
-                .iter()
-                .all(|category| { demos.iter().any(|demo| demo.category() == *category) })
-        );
-
-        for expected in [
-            "Dashboard",
-            "Master–detail",
-            "Wizard / stepper",
-            "Settings page",
-            "Kanban board",
-            "Timeline / activity",
-            "Command center",
-            "Floating windows",
-            "Masonry / flow",
-            "Accordion sections",
-            "Three-pane workspace",
-            "Document tabs",
-            "Responsive layout",
-            "Command palette",
-            "Property inspector",
-            "Feedback states",
-            "Calendar / scheduler",
-            "Editor workspace",
-            "Nav rail + breadcrumbs",
-            "Grouped bulk selection",
-            "Diff / compare",
-            "Keyboard focus & shortcuts",
-            "Unsaved changes",
-            "Date, time & folder pickers",
-            "Theme tokens & focus",
-            "Accessibility & focus",
-        ] {
-            assert!(
-                names.contains(expected),
-                "missing registered demo: {expected}"
-            );
-        }
+impl Demo for IncidentConsole {
+    fn name(&self) -> &'static str {
+        "Incident console"
     }
 
-    #[test]
-    fn docs_list_every_registered_demo() {
-        let manifest = env!("CARGO_MANIFEST_DIR");
-        let readme =
-            std::fs::read_to_string(format!("{manifest}/README.md")).expect("README.md readable");
-        let catalog = std::fs::read_to_string(format!("{manifest}/docs/demo-catalog.md"))
-            .expect("demo-catalog.md readable");
-
-        for demo in all_demos() {
-            let name = demo.name();
-            assert!(
-                readme.contains(name),
-                "README.md is missing registered demo: {name}"
-            );
-            assert!(
-                catalog.contains(name),
-                "docs/demo-catalog.md is missing registered demo: {name}"
-            );
-        }
+    fn description(&self) -> &'static str {
+        "Operational incident triage with severity, ownership, and timeline views."
     }
 
-    #[test]
-    fn every_demo_can_render_one_frame() {
-        let ctx = egui::Context::default();
-        let mut demos = all_demos();
+    fn category(&self) -> Category {
+        Category::Layout
+    }
 
-        for demo in &mut demos {
-            let mut output = ctx.run_ui(egui::RawInput::default(), |ctx| {
-                egui::CentralPanel::default().show(ctx, |ui| demo.ui(ui));
+    fn ui(&mut self, ui: &mut Ui) {
+        ui.horizontal(|ui| {
+            ui.heading("Incident console");
+            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                ui.button("Refresh");
             });
-            output.textures_delta.clear();
-        }
+        });
+        ui.separator();
+
+        let incidents = [
+            (
+                "API latency spike",
+                "P1",
+                Color32::from_rgb(220, 110, 90),
+                "Auth gateway • N. Bell",
+                "Customers seeing 2.4s latency; rollback plan active.",
+            ),
+            (
+                "Database failover",
+                "P2",
+                Color32::from_rgb(210, 160, 70),
+                "Payments • D. Wu",
+                "Replica promotion in progress; write traffic protected.",
+            ),
+            (
+                "Search index backlog",
+                "P3",
+                Color32::from_rgb(100, 160, 220),
+                "Discovery • R. Singh",
+                "Recent indexing lag is under threshold and monitored.",
+            ),
+        ];
+
+        self.selected = self.selected.min(incidents.len().saturating_sub(1));
+
+        egui::Panel::left("incident_list")
+            .default_size(240.0)
+            .show(ui, |ui| {
+                ui.strong("Active incidents");
+                ui.separator();
+                for (index, (name, severity, color, owner, _)) in incidents.iter().enumerate() {
+                    if ui
+                        .selectable_label(self.selected == index, *name)
+                        .clicked()
+                    {
+                        self.selected = index;
+                    }
+                    ui.horizontal(|ui| {
+                        ui.colored_label(*color, *severity);
+                        ui.weak(owner);
+                    });
+                    ui.add_space(6.0);
+                }
+            });
+
+        egui::Panel::right("incident_timeline")
+            .default_size(240.0)
+            .show(ui, |ui| {
+                ui.strong("Timeline");
+                ui.separator();
+                for line in [
+                    "09:12 alert fired",
+                    "09:18 owner assigned",
+                    "09:29 rollback initiated",
+                    "09:42 mitigation validated",
+                ] {
+                    ui.horizontal(|ui| {
+                        ui.small("•");
+                        ui.label(RichText::new(line).weak());
+                    });
+                }
+            });
+
+        egui::CentralPanel::default().show(ui, |ui| {
+            let (name, severity, color, owner, detail) = incidents[self.selected];
+
+            ui.horizontal(|ui| {
+                ui.heading(name);
+                ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                    ui.colored_label(color, severity);
+                });
+            });
+            ui.separator();
+
+            ui.horizontal(|ui| {
+                ui.small("Owner");
+                ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                    ui.weak(owner);
+                });
+            });
+
+            ui.add_space(8.0);
+            ui.label("Summary");
+            ui.label(RichText::new(detail).weak());
+            ui.add_space(10.0);
+
+            egui::Frame::group(ui.style()).show(ui, |ui| {
+                ui.strong("Impact");
+                ui.separator();
+                ui.horizontal(|ui| {
+                    ui.label("Services affected");
+                    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                        ui.weak("auth, api, web");
+                    });
+                });
+                ui.horizontal(|ui| {
+                    ui.label("Customers impacted");
+                    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                        ui.weak("17% of traffic");
+                    });
+                });
+            });
+
+            ui.add_space(10.0);
+            ui.horizontal(|ui| {
+                if ui.button("Acknowledge").clicked() {
+                    // no-op state for demo illustration
+                }
+                if ui.button("Escalate").clicked() {
+                    // no-op state for demo illustration
+                }
+                if ui.button("Resolve").clicked() {
+                    // no-op state for demo illustration
+                }
+            });
+        });
     }
 }
+
