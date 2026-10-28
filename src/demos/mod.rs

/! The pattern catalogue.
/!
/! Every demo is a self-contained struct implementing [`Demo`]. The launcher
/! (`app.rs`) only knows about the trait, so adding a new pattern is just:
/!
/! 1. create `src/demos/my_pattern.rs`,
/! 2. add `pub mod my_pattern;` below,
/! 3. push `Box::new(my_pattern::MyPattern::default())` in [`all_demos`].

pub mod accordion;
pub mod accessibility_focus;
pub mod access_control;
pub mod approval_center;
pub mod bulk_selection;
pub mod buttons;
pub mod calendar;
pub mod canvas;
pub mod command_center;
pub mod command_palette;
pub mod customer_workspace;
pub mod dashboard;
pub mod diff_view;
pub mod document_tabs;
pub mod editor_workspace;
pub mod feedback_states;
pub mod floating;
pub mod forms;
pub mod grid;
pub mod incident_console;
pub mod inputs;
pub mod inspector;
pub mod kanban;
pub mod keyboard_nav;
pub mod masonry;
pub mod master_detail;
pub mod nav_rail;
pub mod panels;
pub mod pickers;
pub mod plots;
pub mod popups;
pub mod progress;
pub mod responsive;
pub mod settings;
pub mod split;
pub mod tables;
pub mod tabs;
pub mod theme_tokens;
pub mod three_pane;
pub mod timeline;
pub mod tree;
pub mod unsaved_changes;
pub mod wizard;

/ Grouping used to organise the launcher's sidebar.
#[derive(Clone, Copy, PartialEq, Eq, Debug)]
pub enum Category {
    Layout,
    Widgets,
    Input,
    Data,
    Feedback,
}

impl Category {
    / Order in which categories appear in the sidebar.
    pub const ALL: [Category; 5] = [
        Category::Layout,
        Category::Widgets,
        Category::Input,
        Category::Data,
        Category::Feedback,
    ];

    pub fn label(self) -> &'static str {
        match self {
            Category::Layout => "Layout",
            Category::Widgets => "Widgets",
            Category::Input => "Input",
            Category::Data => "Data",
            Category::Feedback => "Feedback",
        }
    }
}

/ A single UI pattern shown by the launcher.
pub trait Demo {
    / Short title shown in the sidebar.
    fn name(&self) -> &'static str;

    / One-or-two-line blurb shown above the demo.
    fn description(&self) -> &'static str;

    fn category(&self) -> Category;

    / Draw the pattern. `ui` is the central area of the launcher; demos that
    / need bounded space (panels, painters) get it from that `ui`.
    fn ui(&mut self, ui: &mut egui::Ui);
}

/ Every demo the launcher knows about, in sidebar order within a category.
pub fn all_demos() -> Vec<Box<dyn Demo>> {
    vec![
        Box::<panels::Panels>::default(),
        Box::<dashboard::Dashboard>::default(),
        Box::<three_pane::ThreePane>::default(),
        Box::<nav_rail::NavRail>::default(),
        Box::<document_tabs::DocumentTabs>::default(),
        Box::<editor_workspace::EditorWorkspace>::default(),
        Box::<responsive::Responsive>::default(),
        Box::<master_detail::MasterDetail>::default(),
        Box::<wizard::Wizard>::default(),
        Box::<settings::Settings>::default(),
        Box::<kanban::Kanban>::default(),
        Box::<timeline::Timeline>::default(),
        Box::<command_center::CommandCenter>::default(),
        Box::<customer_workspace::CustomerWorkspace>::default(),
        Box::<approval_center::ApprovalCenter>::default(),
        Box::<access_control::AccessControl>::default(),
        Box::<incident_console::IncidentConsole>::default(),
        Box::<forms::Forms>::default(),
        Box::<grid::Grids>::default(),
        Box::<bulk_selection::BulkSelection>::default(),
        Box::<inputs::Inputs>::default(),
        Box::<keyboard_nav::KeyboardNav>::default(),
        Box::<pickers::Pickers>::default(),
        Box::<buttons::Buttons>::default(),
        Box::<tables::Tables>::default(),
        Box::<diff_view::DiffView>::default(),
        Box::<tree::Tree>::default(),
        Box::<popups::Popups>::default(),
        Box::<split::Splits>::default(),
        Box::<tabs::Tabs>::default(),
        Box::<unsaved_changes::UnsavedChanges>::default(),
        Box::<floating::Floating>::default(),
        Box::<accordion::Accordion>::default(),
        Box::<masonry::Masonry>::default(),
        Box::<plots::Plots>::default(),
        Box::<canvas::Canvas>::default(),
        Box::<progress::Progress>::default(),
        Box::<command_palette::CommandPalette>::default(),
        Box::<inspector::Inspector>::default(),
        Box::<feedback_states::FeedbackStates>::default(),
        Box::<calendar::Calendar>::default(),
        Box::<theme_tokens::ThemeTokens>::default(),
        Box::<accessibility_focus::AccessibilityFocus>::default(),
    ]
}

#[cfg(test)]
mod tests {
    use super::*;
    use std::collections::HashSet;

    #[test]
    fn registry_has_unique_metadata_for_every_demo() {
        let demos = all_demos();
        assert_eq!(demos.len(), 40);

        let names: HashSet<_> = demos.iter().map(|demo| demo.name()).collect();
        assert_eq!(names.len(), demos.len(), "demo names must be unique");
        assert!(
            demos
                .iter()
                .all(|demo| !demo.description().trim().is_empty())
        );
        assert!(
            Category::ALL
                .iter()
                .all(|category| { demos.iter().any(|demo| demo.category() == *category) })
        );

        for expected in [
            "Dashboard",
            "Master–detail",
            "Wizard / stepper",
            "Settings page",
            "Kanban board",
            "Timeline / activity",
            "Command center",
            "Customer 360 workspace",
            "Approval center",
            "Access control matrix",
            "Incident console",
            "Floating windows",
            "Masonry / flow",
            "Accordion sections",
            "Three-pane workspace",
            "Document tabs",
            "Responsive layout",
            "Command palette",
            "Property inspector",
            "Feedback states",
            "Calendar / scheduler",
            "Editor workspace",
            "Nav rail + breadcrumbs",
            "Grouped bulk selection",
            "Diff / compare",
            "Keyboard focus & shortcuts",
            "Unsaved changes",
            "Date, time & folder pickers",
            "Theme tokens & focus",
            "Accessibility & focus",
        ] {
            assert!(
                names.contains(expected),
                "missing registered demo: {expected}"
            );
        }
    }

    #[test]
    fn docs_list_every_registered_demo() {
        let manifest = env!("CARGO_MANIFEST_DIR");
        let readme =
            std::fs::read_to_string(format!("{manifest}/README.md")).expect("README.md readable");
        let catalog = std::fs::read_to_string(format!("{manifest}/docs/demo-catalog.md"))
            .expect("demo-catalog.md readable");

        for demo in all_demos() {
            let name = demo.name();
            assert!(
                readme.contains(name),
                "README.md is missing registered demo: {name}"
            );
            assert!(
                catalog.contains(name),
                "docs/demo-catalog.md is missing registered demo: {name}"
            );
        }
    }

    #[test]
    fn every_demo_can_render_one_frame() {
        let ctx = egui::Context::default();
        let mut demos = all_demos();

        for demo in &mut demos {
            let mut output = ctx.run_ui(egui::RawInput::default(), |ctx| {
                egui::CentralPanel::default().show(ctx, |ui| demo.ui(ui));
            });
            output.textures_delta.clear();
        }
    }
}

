@@ -1,0 +1,99 @@
+use super::{Category, Demo};
+use egui::{Align, Color32, Layout, RichText, Ui};
+
+#[derive(Default)]
+pub struct CustomerWorkspace {
+    selected_tab: usize,
+}
+
+impl Demo for CustomerWorkspace {
+    fn name(&self) -> &'static str {
+        "Customer 360 workspace"
+    }
+
+    fn description(&self) -> &'static str {
+        "Unified account overview with health score, engagement metrics, and living customer context."
+    }
+
+    fn category(&self) -> Category {
+        Category::Layout
+    }
+
+    fn ui(&mut self, ui: &mut Ui) {
+        ui.horizontal(|ui| {
+            ui.heading("Northwind Labs");
+            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                ui.colored_label(Color32::from_rgb(90, 170, 120), "Healthy account");
+            });
+        });
+        ui.separator();
+
+        let tabs = ["Overview", "Revenue", "Activity", "Tasks"];
+        ui.horizontal_wrapped(|ui| {
+            for (index, tab) in tabs.iter().enumerate() {
+                if ui.selectable_label(self.selected_tab == index, *tab).clicked() {
+                    self.selected_tab = index;
+                }
+            }
+        });
+
+        ui.add_space(8.0);
+        ui.columns(3, |columns| {
+            egui::Frame::group(columns[0].style()).show(&mut columns[0], |ui| {
+                ui.weak("Health score");
+                ui.heading("92 / 100");
+                ui.add(egui::ProgressBar::new(0.92).desired_width(ui.available_width()));
+                ui.add_space(4.0);
+                ui.label(RichText::new("Renewal window: 18 days").weak());
+            });
+
+            egui::Frame::group(columns[1].style()).show(&mut columns[1], |ui| {
+                ui.weak("ARR");
+                ui.heading("$1.24M");
+                ui.colored_label(Color32::from_rgb(90, 170, 120), "+8.6% vs last quarter");
+                ui.add_space(6.0);
+                ui.label(RichText::new("Expansion opportunity: 14% of active seats").weak());
+            });
+
+            egui::Frame::group(columns[2].style()).show(&mut columns[2], |ui| {
+                ui.weak("Next milestone");
+                ui.heading("Q3 rollout");
+                ui.label(RichText::new("Stakeholder sync scheduled for Friday").weak());
+            });
+        });
+
+        ui.add_space(10.0);
+        ui.columns(2, |columns| {
+            egui::Frame::group(columns[0].style()).show(&mut columns[0], |ui| {
+                ui.strong("Customer context");
+                ui.separator();
+                for (label, value) in [
+                    ("Segment", "Enterprise"),
+                    ("Region", "North America"),
+                    ("Owner", "A. Patel"),
+                    ("Support tier", "Premier"),
+                ] {
+                    ui.horizontal(|ui| {
+                        ui.label(label);
+                        ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                            ui.weak(value);
+                        });
+                    });
+                }
+            });
+
+            egui::Frame::group(columns[1].style()).show(&mut columns[1], |ui| {
+                ui.strong("Recent activity");
+                ui.separator();
+                for line in [
+                    "Deployment completed successfully",
+                    "Three new seats activated this week",
+                    "Finance review requested for expansion",
+                    "Renewal proposal opened by account team",
+                ] {
+                    ui.label(RichText::new(line).weak());
+                }
+            });
+        });
+    }
+}
