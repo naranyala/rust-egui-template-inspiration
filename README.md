@@ -2,11 +2,35 @@
 
 A small desktop application that turns common [`egui`](https://github.com/emilk/egui) layouts and widgets into a searchable, copy-paste-friendly pattern gallery.
 
-The project is deliberately easy to read: the launcher owns navigation and shared state, while each example is an independent `Demo` implementation under `src/demos/`. Use it as a starting point for custom desktop UI work.
+This repository is both a live desktop reference app and a small codebase for building enterprise-style desktop UI layouts in Rust. The launcher owns navigation and shared state, while each example is an independent `Demo` implementation under `src/demos/`.
 
-## What is included
+## What this repo offers
 
-The gallery currently contains **thirty-nine** examples. Every entry below is a real, self-contained implementation in `src/demos/`, linked to its source so you can copy it directly.
+The project currently contains a full catalog of 39 real `egui` patterns, organized by category and exposed through a searchable launcher UI.
+
+Included capabilities:
+
+- searchable sidebar with category grouping
+- case-insensitive pattern search (`/` keyboard shortcut)
+- dark/light theme switching
+- configurable accent color
+- presentation mode for focused previewing
+- headless smoke-render validation for every demo
+- docs for adding new patterns and maintaining the registry
+
+## Codebase at a glance
+
+- `src/main.rs` — application entry point and native app setup
+- `src/app.rs` — launcher shell, sidebar, status bar, and selected-demo host
+- `src/demos/mod.rs` — registry, metadata, category taxonomy, and shared `Demo` trait
+- `src/demos/` — self-contained demo implementations for each UI pattern
+- `src/theme.rs` — theme state and accent configuration
+- `src/shared.rs` — shared helpers and app-wide values
+- `docs/` — architecture, adding-patterns, demo catalog, egui notes, and testing guidance
+
+## Current catalog
+
+The gallery currently contains 39 examples. Every entry below is a real, self-contained implementation in `src/demos/`, linked to its source so you can copy it directly.
 
 ### Layout
 
@@ -67,9 +91,18 @@ The launcher also provides:
 - category-grouped navigation in a resizable sidebar;
 - case-insensitive pattern search, with `/` as a search shortcut;
 - dark/light themes and a configurable accent color;
-- a status bar showing the pattern count and current selection.
+- a status bar showing the pattern count and current selection;
+- presentation mode for a minimal preview experience.
 
-The per-file map in [`docs/demo-catalog.md`](docs/demo-catalog.md) mirrors this list and adds a "useful starting point for" column.
+The per-file map in [`docs/demo-catalog.md`](docs/demo-catalog.md) mirrors this list and adds a “useful starting point for” column.
+
+## Documentation
+
+- [`docs/architecture.md`](docs/architecture.md) — code structure and design notes
+- [`docs/adding-patterns.md`](docs/adding-patterns.md) — how to add a demo and keep registry metadata aligned
+- [`docs/demo-catalog.md`](docs/demo-catalog.md) — searchable catalog with use-case mapping
+- [`docs/egui-notes.md`](docs/egui-notes.md) — useful egui implementation notes
+- [`docs/testing.md`](docs/testing.md) — validation and regression checks
 
 ## Quick start
 
