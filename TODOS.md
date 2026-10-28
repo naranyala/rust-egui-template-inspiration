@@ -10,7 +10,7 @@ This file tracks the implementation and quality work for the egui inspiration ga
 
 ## Current foundation
 
-- [x] 37 registered demos are exposed through `src/demos/mod.rs`.
+- [x] 40 registered demos are exposed through `src/demos/mod.rs`.
 - [x] Every demo is listed in `README.md` and `docs/demo-catalog.md`.
 - [x] Registry metadata checks enforce unique names and non-empty descriptions.
 - [x] Headless smoke test renders every registered demo for one frame.
@@ -176,6 +176,7 @@ The project should become a comprehensive egui pattern gallery that covers:
 - [x] Add a calendar/scheduler template with day and week views.
 - [x] Add drag-and-drop/reorderable list interactions.
 - [x] Add a file explorer + editor + terminal workspace variant.
+- [x] Add an enterprise approval-center workflow template.
 
 ## Interaction and production patterns
 
@@ -222,6 +223,7 @@ Patterns modern web UI frameworks provide natively and our gallery should demons
 - [x] Keep `cargo test`, Clippy with warnings denied, and rustfmt clean.
 - [x] Add paginated data-table controls for large result sets.
 - [x] Add a shared launch-option parser with unit coverage.
+- [x] Add an enterprise approval workflow queue and decision panel.
 
 ## Recommended priority order
 
@@ -303,4 +305,4 @@ The highest-value patterns to add first are:
 
 ## Next action
 
-Start by implementing the app shell, the metadata model, and the first 10 highest-priority patterns, then move into advanced workspace and production patterns. Use the existing demo registry as the backbone for incremental pattern additions.
+Start by implementing the app shell, the metadata model, and the first 10 highest-priority patterns, then move into advanced workspace and production patterns. Use the existing demo registry as the foundation, then layer on enterprise workflows like approval queues, operations consoles, and governance tools.
